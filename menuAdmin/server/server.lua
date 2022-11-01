@@ -261,15 +261,15 @@ end)
 
 CreateThread(function()
 	local current = GetResourceMetadata(GetCurrentResourceName(), 'version')
-	PerformHttpRequest('https://raw.githubusercontent.com/Prefech/JD_logsV3/master/json/version.json', function(code, res, headers)
+	PerformHttpRequest('https://raw.githubusercontent.com/Matdbx10/menuAdmin/main/menuAdmin/json/version.json', function(code, res, headers)
 		if code == 200 then
 			local rv = json.decode(res)
-			SetConvarServerInfo("JD_logs", "V"..current)
+			SetConvarServerInfo("menuAdmin", "V"..current)
 			if rv.version ~= current then
 				print('^5[menuAdmin] ^1Error: ^0menuAdmin is outdated and you will no longer get support for this version.')
 			end
 		end
 	end, 'GET')
 	Wait(10 * 1000)
-	SetResourceKvp("JD_logs:LastVersion", current) -- This KVP is used for making the correct changes to config files when updating to the latest version.
+	SetResourceKvp("menuAdmin:LastVersion", current) -- This KVP is used for making the correct changes to config files when updating to the latest version.
 end)
