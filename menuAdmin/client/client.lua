@@ -517,13 +517,28 @@ Citizen.CreateThread(function()
                     PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", 1)
                     ARKALIS.Helper:onStaffMode(true)
                     TriggerServerEvent('ARKALIS:onStaffJoin')
-                    TriggerEvent("ux.dbx:setStaff", true)
+                    TriggerEvent('skinchanger:getSkin', function(skin)
+                        TriggerEvent('skinchanger:loadClothes', skin, {
+                        ['bags_1'] = 0, ['bags_2'] = 0,
+                        ['tshirt_1'] = 15, ['tshirt_2'] = 2,
+                        ['torso_1'] = 204, ['torso_2'] = 5,
+                        ['arms'] = 31,
+                        ['pants_1'] = 87, ['pants_2'] = 5,
+                        ['shoes_1'] = 56, ['shoes_2'] = 5,
+                        ['mask_1'] = 0, ['mask_2'] = 0,
+                        ['bproof_1'] = 0,
+                        ['chain_1'] = 0,
+                        ['helmet_1'] = 62, ['helmet_2'] = 0,
+                    })
+                    end)
                 end,
                 onUnChecked = function()
                     PlaySoundFrontend(-1, "Click", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
                     ARKALIS.Helper:onStaffMode(false)
                     TriggerServerEvent('ARKALIS:onStaffLeave')
-                    TriggerEvent("ux.dbx:setStaff", false)
+                    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+                        TriggerEvent('skinchanger:loadSkin', skin)
+                    end)
                 end,
                 onSelected = function(Index)
                     ARKALIS.SelfPlayer.isStaffEnabled = Index
