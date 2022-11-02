@@ -2,15 +2,14 @@ Config = {}
 
 Config = {
     webhook = { -- LOGS DISCORD
-        Staffmodeon = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",      -- MODE STAFF ON
-        Staffmodeoff = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",     -- MODE STAFF OFF
-        teleport = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",
-        teleportTo = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",
-        revive = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",
-        kick = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",
-        SendLogs = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",        -- GENERAL LOGS
-        report = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI",
-        givemoney = "https://discord.com/api/webhooks/999728621314899968/yOwZF6pLQuODFWdpU9MEA7CHelG5kWTmSWEcOwoc_Q8Hkvp8ia3xNmEKSho531M4nnEI"
+        Staffmodeon = "DISCORD_WEBHOOK",      -- MODE STAFF ON
+        Staffmodeoff = "DISCORD_WEBHOOK",     -- MODE STAFF OFF
+        teleport = "DISCORD_WEBHOOK",        -- BRING LOGS
+        teleportTo = "DISCORD_WEBHOOK",         -- GOTO LOGS
+        revive = "DISCORD_WEBHOOK",        -- REVIVE LOGS
+        kick = "DISCORD_WEBHOOK",        -- KICK/BAN LOGS
+        SendLogs = "DISCORD_WEBHOOK",        -- GENERAL LOGS
+        report = "DISCORD_WEBHOOK"        -- REPORT LOGS
     },
 
     Touche = { -- TOUCHE MENU
