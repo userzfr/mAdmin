@@ -52,6 +52,12 @@ RegisterCommand('report', function(source, args, user)
     end
 end)
 
+-- Command Ping
+
+TriggerEvent('es:addGroupCommand', 'ping', 'user', function(source)
+    TriggerClientEvent('esx:showAdvancedNotification', source, 'PING', '~b~' ..GetPlayerName(source).. '', 'Votre ping est de ~n~~r~'..GetPlayerPing(source)..' MS', 'CHAR_CHAT_CALL', 0)
+end)
+
 -- Prise des rôle user
 
 ESX.RegisterServerCallback('ARKALIS:getUsergroup', function(source, cb)
