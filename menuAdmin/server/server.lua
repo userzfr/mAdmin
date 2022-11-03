@@ -1,10 +1,16 @@
+-- Trigger ESX
+
 TriggerEvent('esx:getSharedObject', function(obj)
     ESX = obj
 end)
 
+-- Début du script
+
 local staff = {}
 local allreport = {}
 local reportcount = {}
+
+-- Commande Report
 RegisterCommand('report', function(source, args, user)
     local xPlayerSource = ESX.GetPlayerFromId(source)
     local isadded = false
@@ -45,6 +51,8 @@ RegisterCommand('report', function(source, args, user)
         end
     end
 end)
+
+-- Prise des rôle user
 
 ESX.RegisterServerCallback('ARKALIS:getUsergroup', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
