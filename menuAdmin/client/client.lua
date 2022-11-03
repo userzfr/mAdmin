@@ -1065,10 +1065,13 @@ Citizen.CreateThread(function()
 
                     RageUI.Separator("↓ ~s~SANCTION ~b~↓")
                     RageUI.List('Temps de ban', {
-                        { Name = "1 Heure", Value = '0.2' },
-                        { Name = "12 Heure", Value = '1' },
+                        { Name = "1 Jour", Value = '1' },
+                        { Name = "2 Jours", Value = '2' },
+                        { Name = "3 Jours", Value = '3' },
                         { Name = "1 Semaine", Value = '7' },
                         { Name = "1 Mois", Value = '30' },
+                        { Name = "3 Mois", Value = '90' },
+                        { Name = "1 Année", Value = '365' },
                         { Name = "Permanent", Value = '0' },
                     }, GroupIndex, "Pour mettre le temps de ban ! ~g~(Entrée pour valider)\n", {}, true, {
                         onListChange = function(Index, Item)
