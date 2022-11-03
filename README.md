@@ -1,7 +1,7 @@
 ### 🛠 Requirements
 
 - FXServer With at least build: `5562`
-- screenshot-basic
+- [BanSql](https://github.com/Matdbx10/BanSql)
 - A Discord Server
 
 ### ✅ Main Features
