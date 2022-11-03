@@ -4,11 +4,17 @@
 - A Discord Server
 
 ### ✅ Main Features
+
 - Basic features:
-    - Ban / Kick
-    - Give a car and custom car
-    - See a Name
-    - Noclip / Invisible 
+    - Ban / Kick other player
+    - Give yourself a car
+    - View Player Nicknames
+    - Being able to put yourself in Noclip / Invisible
+    - Teleport to point
+    - Quick Teleport Point
+
+- Extra Features:
+    - Paid personal customization
 
 
 ### 🔧 Download & Installation
