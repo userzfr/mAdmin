@@ -1157,7 +1157,7 @@ Citizen.CreateThread(function()
                     RageUI.Separator("~b~↓~s~ SANCTION ~b~↓")
                     RageUI.Button('Raison du kick', nil, { RightLabel = '~b~'..raisontosend }, true, {
                         onSelected = function()
-                            local Raison = KeyboardInput('ARKALIS_BOX_BAN_RAISON', "Raison du ban", '', 50)
+                            local Raison = KeyboardInput('ARKALIS_BOX_BAN_RAISON', "Raison du kick", '', 50)
                             raisontosend = Raison
                         end
                     })
