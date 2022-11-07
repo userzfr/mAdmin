@@ -13,23 +13,23 @@ Config = {
     },
 
     Tennue = { -- VETEMENT
-    bag = 0, Config.Tennue.bag
-    bag2 = 0, Config.Tennue.bag2
-    tshirt = 15, Config.Tennue.tshirt
-    tshirt2 = 2, Config.Tennue.tshirt2
-    torso = 204, Config.Tennue.torso
-    torso2 = 5, Config.Tennue.torso2
-    arms = 31, Config.Tennue.arms
-    pants = 87, Config.Tennue.pants
-    pants2 = 5, Config.Tennue.pants2
-    shoes = 56, Config.Tennue.shoes
-    shoes2 = 5, Config.Tennue.shoes2
-    mask = 0, Config.Tennue.mask
-    mask2 = 0, Config.Tennue.mask2
-    bproof = 0, Config.Tennue.bproof
-    chain = 0, Config.Tennue.chain
-    helmet = 62, Config.Tennue.helmet
-    helmet2 = 0, Config.Tennue.helmet2
+    bag = 0,
+    bag2 = 0,
+    tshirt = 15,
+    tshirt2 = 2,
+    torso = 204,
+    torso2 = 5, 
+    arms = 31,
+    pants = 87,
+    pants2 = 5,
+    shoes = 56,
+    shoes2 = 5,
+    mask = 0,
+    mask2 = 0,
+    bproof = 0,
+    chain = 0,
+    helmet = 62,
+    helmet2 = 0,
     },
 
     Touche = { -- TOUCHE MENU
