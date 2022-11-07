@@ -531,16 +531,16 @@ Citizen.CreateThread(function()
                     TriggerServerEvent('ARKALIS:onStaffJoin')
                     TriggerEvent('skinchanger:getSkin', function(skin)
                         TriggerEvent('skinchanger:loadClothes', skin, {
-                        ['bags_1'] = 0, ['bags_2'] = 0,
-                        ['tshirt_1'] = 15, ['tshirt_2'] = 2,
-                        ['torso_1'] = 204, ['torso_2'] = 5,
-                        ['arms'] = 31,
-                        ['pants_1'] = 87, ['pants_2'] = 5,
-                        ['shoes_1'] = 56, ['shoes_2'] = 5,
-                        ['mask_1'] = 0, ['mask_2'] = 0,
-                        ['bproof_1'] = 0,
-                        ['chain_1'] = 0,
-                        ['helmet_1'] = 62, ['helmet_2'] = 0,
+                        ['bags_1'] = Config.Tennue.bag, ['bags_2'] = Config.Tennue.bag2,
+                        ['tshirt_1'] = Config.Tennue.tshirt, ['tshirt_2'] = Config.Tennue.tshirt2,
+                        ['torso_1'] = Config.Tennue.torso, ['torso_2'] = Config.Tennue.torso2,
+                        ['arms'] = Config.Tennue.arms,
+                        ['pants_1'] = Config.Tennue.pants, ['pants_2'] = Config.Tennue.pants2,
+                        ['shoes_1'] = Config.Tennue.shoes, ['shoes_2'] = Config.Tennue.shoes2,
+                        ['mask_1'] = Config.Tennue.mask, ['mask_2'] = Config.Tennue.mask2,
+                        ['bproof_1'] = Config.Tennue.bproof,
+                        ['chain_1'] = Config.Tennue.chain,
+                        ['helmet_1'] = Config.Tennue.helmet, ['helmet_2'] = Config.Tennue.helmet2,
                     })
                     end)
                 end,
