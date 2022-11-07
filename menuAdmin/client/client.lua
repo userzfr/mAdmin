@@ -187,6 +187,14 @@ local FastTravel = {
     { Name = "~g~Cayo Perico~s~", Value = vector3(4509.66, -4508.96, 3.01) },
 }
 
+local FastTravel2 = {
+    { Name = "~g~Toit Centre ville~s~", Value = vector3(123.94564056396,-880.44451904297,134.77000427246) },
+    { Name = "~g~Toit Est. ville~s~", Value = vector3(-159.36653137207,-992.88562011719,254.13056945801) },
+    { Name = "~g~Toit de Studio 1~s~", Value = vector3(-143.79469299316,-593.11883544922,211.77502441406) },
+    { Name = "~g~Toit Ouest. ville~s~", Value = vector3(-895.02905273438,-446.72402954102,171.81401062012) },
+    { Name = "~g~Toit Sud. ville~s~", Value = vector3(-847.86987304688,-2142.7275390625,101.39619445801) },
+}
+
 local GroupIndex = 1;
 local GroupIndexx = 1;
 local GroupIndexxx = 1;
@@ -202,6 +210,7 @@ local PermissionIndex = 1;
 local VehicleIndex = 1;
 local ColorIndex = 1;
 local FastTravelIndex = 1;
+local FastTravelIndex2 = 1;
 local CarParticleIndex = 1;
 local idtosanctionbaby = 1;
 local idtoreport = 1;
@@ -709,9 +718,18 @@ Citizen.CreateThread(function()
                 end
             })
 
-            RageUI.List('TP sur ', FastTravel, FastTravelIndex, nil, {}, true, {
+            RageUI.List('→ Téléportation Rapide', FastTravel, FastTravelIndex, nil, {}, true, {
                 onListChange = function(Index, Item)
                 FastTravelIndex = Index;
+                end,
+                onSelected = function(Index, Item)
+                SetEntityCoords(PlayerPedId(), Item.Value)
+                TriggerServerEvent("ARKALIS:SendLogs", "Utilise le fast travel")
+                end
+            })
+            RageUI.List('→ Téléportation Toits', FastTravel2, FastTravelIndex2, nil, {}, true, {
+                onListChange = function(Index, Item)
+                FastTravelIndex2 = Index;
                 end,
                 onSelected = function(Index, Item)
                 SetEntityCoords(PlayerPedId(), Item.Value)
@@ -724,7 +742,9 @@ Citizen.CreateThread(function()
         if (ARKALIS.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(utilsmenu, function()
 
-                RageUI.Checkbox("Coordonnées", "Affiche les ~o~coordonnées", ARKALIS.SelfPlayer.ShowCoords, { }, {
+                RageUI.Separator("~r~↓ ~s~Developpement ~r~↓")
+
+                RageUI.Checkbox("→ Affiché les Coordonnées", "Affiche les ~o~coordonnées", ARKALIS.SelfPlayer.ShowCoords, { }, {
                     onChecked = function()
                         TriggerServerEvent("ARKALIS:SendLogs", "Affiche les coordonnées")
                         coords = true
@@ -738,7 +758,23 @@ Citizen.CreateThread(function()
                     end
                 })
 
-                RageUI.Checkbox("Delgun", 'Active le ~g~pistolet~s~ qui ~r~delete', ARKALIS.SelfPlayer.isDelgunEnabled, { }, {
+                RageUI.Button("→ Copié les Coordonnées (1)", "Forme : 100.00, 100.00, 100.0", {RightLabel = "~r~→→"}, true, {
+                    onSelected = function()
+                    ExecuteCommand("coords")
+                    ESX.ShowNotification("Les coordonnées ont été copié")  
+                end
+                
+                })
+    
+                RageUI.Button("→ Copié les Coordonnées (2)", "Forme : x = 100.00, y = 100.00, z = 100.0", {RightLabel = "~r~→→"}, true, {
+                    onSelected = function()
+                    ExecuteCommand("c")
+                    ESX.ShowNotification("Les coordonnées ont été copié")  
+                end
+                
+                })
+
+                RageUI.Checkbox("→ Delgun", 'Active le ~g~pistolet~s~ qui ~r~delete', ARKALIS.SelfPlayer.isDelgunEnabled, { }, {
                     onChecked = function()
                         TriggerServerEvent("ARKALIS:SendLogs", "Active Delgun")
                     end,
@@ -760,6 +796,7 @@ Citizen.CreateThread(function()
                     { Name = "BMX", Value = 'bmx' },
                     { Name = "Sanchez", Value = 'sanchez' },
                     { Name = "Blista", Value = "blista" },
+                    { Name = "Panto", Value = "panto" },
                 }, VehicleIndex, nil, {}, true, {
                     onListChange = function(Index, Item)
                         VehicleIndex = Index;
@@ -801,7 +838,9 @@ Citizen.CreateThread(function()
                     { Name = "30", Value = 30 },
                     { Name = "50", Value = 50 },
                     { Name = "100", Value = 100 },
-                    { Name = "MAP", Value = 100000 },
+                    { Name = "500", Value = 500 },
+                    { Name = "1000", Value = 1000 },
+                    { Name = "100000", Value = 100000 },
                 }, GroupIndex, nil, {}, true, {
                     onListChange = function(Index, Item)
                         GroupIndex = Index;
