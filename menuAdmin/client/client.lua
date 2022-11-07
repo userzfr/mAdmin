@@ -193,6 +193,9 @@ local FastTravel2 = {
     { Name = "~g~Toit de Studio 1~s~", Value = vector3(-143.79469299316,-593.11883544922,211.77502441406) },
     { Name = "~g~Toit Ouest. ville~s~", Value = vector3(-895.02905273438,-446.72402954102,171.81401062012) },
     { Name = "~g~Toit Sud. ville~s~", Value = vector3(-847.86987304688,-2142.7275390625,101.39619445801) },
+    { Name = "~g~Toit Maza Bank~s~", Value = vector3(-75.2492, -819.1491, 326.1752) },
+    { Name = "~g~Toit Nord. Melun~s~", Value = vector3(23.7593, 6306.1982, 38.8568) },
+    { Name = "~g~Saller Inter Staff~s~", Value = vector3(-76.0359, -821.7866, 285.0002) },
 }
 
 local GroupIndex = 1;
@@ -1127,7 +1130,7 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('Valider', nil, { RightLabel = "✅" }, true, {
                         onSelected = function()
-                            TriggerServerEvent("ARKALIS:Ban", idtosanctionbaby, GroupItem.Value, raisontosend)
+                            ExecuteCommand("sqlban" idtosanctionbaby, GroupItem.Value, raisontosend)
                         end
                     })
                 end
