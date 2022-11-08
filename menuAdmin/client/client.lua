@@ -761,22 +761,6 @@ Citizen.CreateThread(function()
                     end
                 })
 
-                RageUI.Button("→ Copié les Coordonnées (1)", "Forme : 100.00, 100.00, 100.0", {RightLabel = "~r~→→"}, true, {
-                    onSelected = function()
-                    ExecuteCommand("coords")
-                    ESX.ShowNotification("Les coordonnées ont été copié")  
-                end
-                
-                })
-    
-                RageUI.Button("→ Copié les Coordonnées (2)", "Forme : x = 100.00, y = 100.00, z = 100.0", {RightLabel = "~r~→→"}, true, {
-                    onSelected = function()
-                    ExecuteCommand("c")
-                    ESX.ShowNotification("Les coordonnées ont été copié")  
-                end
-                
-                })
-
                 RageUI.Checkbox("→ Delgun", 'Active le ~g~pistolet~s~ qui ~r~delete', ARKALIS.SelfPlayer.isDelgunEnabled, { }, {
                     onChecked = function()
                         TriggerServerEvent("ARKALIS:SendLogs", "Active Delgun")
