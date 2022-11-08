@@ -1167,7 +1167,7 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('Valider', nil, { RightLabel = "✅" }, true, {
                         onSelected = function()
-                          ExecuteCommand("sqlban "..idtosanctionbaby.." " ..GroupItem.Value.." "..Raison.."")
+                          ExecuteCommand("sqlban "..idtosanctionbaby.." " ..GroupItem.Value.." "..raisontosend.."")
                         end
                     })
                 end
