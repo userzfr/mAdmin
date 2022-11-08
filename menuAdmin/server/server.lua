@@ -52,43 +52,6 @@ RegisterCommand('report', function(source, args, user)
     end
 end)
 
--- Command Ping
-
-TriggerEvent('es:addGroupCommand', 'ping', 'user', function(source)
-    TriggerClientEvent('esx:showAdvancedNotification', source, 'PING', '~b~' ..GetPlayerName(source).. '', 'Votre ping est de ~n~~r~'..GetPlayerPing(source)..' MS', 'CHAR_CHAT_CALL', 0)
-end)
-
--- Coords
-
-RegisterCommand('c', function(source, args, rawCommand)
-	local coords = GetEntityCoords(PlayerPedId())
-	SendNUIMessage({
-		coords = "x = "..coords.x..", y = "..coords.y..", z = "..coords.z..""
-	})
-end)
-
-RegisterCommand('coords', function(source, args, rawCommand)
-	local coords = GetEntityCoords(PlayerPedId())
-	SendNUIMessage({
-		coords = ""..coords.x..","..coords.y..","..coords.z..""
-	})
-end)
-
-
-RegisterCommand('tpc', function(source, args, rawCommand)
-	local coords = {}
-	for coord in string.gmatch(args[1] or "0,0,0","[^,]+") do
-		table.insert(coords,tonumber(coord))
-	end
-
-	local x,y,z = 0,0,0
-	if coords[1] ~= nil then x = coords[1] end
-	if coords[2] ~= nil then y = coords[2] end
-	if coords[3] ~= nil then z = coords[3] end
-
-	SetEntityCoords(GetPlayerPed(-1), x,y,z, false)
-end)
-
 -- Prise des rôle user
 
 ESX.RegisterServerCallback('ARKALIS:getUsergroup', function(source, cb)
