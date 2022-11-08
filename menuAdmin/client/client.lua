@@ -789,7 +789,7 @@ Citizen.CreateThread(function()
                     end
                 })
 
-                RageUI.Separator("~r~↓ ~s~Haute Modération ~r~↓")
+                RageUI.Separator("~r~↓ ~s~Hautes Modérations ~r~↓")
 
                 RageUI.Button("→ Kick un joueur avec ID", nil, {RightLabel = "~r~→→"}, true, {
                     onSelected = function()
@@ -1167,7 +1167,7 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('Valider', nil, { RightLabel = "✅" }, true, {
                         onSelected = function()
-                            --ExecuteCommand("sqlban" idtosanctionbaby, GroupItem.Value, raisontosend)
+                          ExecuteCommand("sqlban "..idtosanctionbaby.." " ..GroupItem.Value.." "..Raison.."")
                         end
                     })
                 end
