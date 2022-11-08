@@ -935,6 +935,7 @@ Citizen.CreateThread(function()
                             local plaqueVehicule = KeyboardInput('ARKALIS_PLAQUE_NAME',"Veuillez entrer le ~r~nom~s~ de la plaque", "", 8)
                             SetVehicleNumberPlateText(GetVehiclePedIsIn(GetPlayerPed(-1), false) , plaqueVehicule)
                             ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'Le nom de la plaque est désormais : ~r~' ..plaqueVehicule, 'CHAR_SUNLITE', 2)
+                            TriggerServerEvent("ARKALIS:SendLogs", "Plaque Changé")
                         else
                             ESX.ShowAdvancedNotification('Administration', '~r~Informations', '~r~Erreur :~s~ Vous n\'êtes pas dans un véhicule ~r~', 'CHAR_SUNLITE', 2)
                         end
@@ -1253,6 +1254,7 @@ Citizen.CreateThread(function()
                         onSelected = function()
                             TriggerServerEvent("ARKALIS:ReportRegle", kvdureport)
                             TriggerEvent("ARKALIS:RefreshReport")
+                            TriggerServerEvent("ARKALIS:SendLogs", "Report Cloturer")
                         end
                     }, reportmenu)
                 end
