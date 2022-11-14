@@ -3,6 +3,8 @@
 </p>
   <p align="center">
     <a href="/docs/readme_fr.md">Français </a>
+    ·
+    <a href="/docs/readme_es.md">Español</a>
   </p>
 </p>
 
