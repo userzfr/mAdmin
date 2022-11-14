@@ -23,11 +23,11 @@
   - Click the `Code` button and then `Download ZIP`
   ![](https://i.imgur.com/iF4dxA5.png "Copiez le screen")
 3. Put the menuAdmin folder in the server resource directory
-    - Make sure to rename the folder to JD_logsV3.
+    - Make sure to rename the folder to mAdmin.
 4. Configure the Admin menu
     - Put the webhooks in the Admin menu config
 5. Add this to your server.cfg
 ```cfg
-ensure menuAdmin
+ensure mAdmin
 ```
 6. Start the resource and you're done.
