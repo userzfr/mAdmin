@@ -6,7 +6,7 @@
     ·
     <a href="/docs/readme_es.md">Español</a>
         ·
-    <a href="/docs/readme_cn">简体中文</a>
+    <a href="/docs/readme_cn.md">简体中文</a>
   </p>
 </p>
 
