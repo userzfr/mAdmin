@@ -28,6 +28,6 @@
      - Coloque los webhooks en la configuración del menú de administración
 5. Agregue esto a su server.cfg
 ```cfg
-asegurar madmin
+ensure madmin
 ```
 6. Inicie el recurso y listo.
