@@ -19,10 +19,10 @@
 
 ### 🔧 Download & Installation
 
-1. Download the latest version from [github](https://github.com/Matdbx10/menuAdmin)
+1. Download the latest version from [github](https://github.com/Matdbx10/mAdmin)
   - Click the `Code` button and then `Download ZIP`
   ![](https://i.imgur.com/iF4dxA5.png "Copiez le screen")
-3. Put the menuAdmin folder in the server resource directory
+3. Put the mAdmin folder in the server resource directory
     - Make sure to rename the folder to mAdmin.
 4. Configure the Admin menu
     - Put the webhooks in the Admin menu config
