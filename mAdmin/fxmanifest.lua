@@ -23,3 +23,7 @@ server_scripts {
     'config.lua',
     'server/server.lua'
 }
+
+author 'Matdbx10 (Arkalis)'
+description 'Discord : https://discord.gg/uk7ww4QMn6'
+version '1.9.1'
