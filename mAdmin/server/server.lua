@@ -18,6 +18,14 @@ Citizen.CreateThread(
 )
 
 
+
+█▀▄▀█ ▄▀█ █▀▄ █▀▄▀█ █ █▄░█
+█░▀░█ █▀█ █▄▀ █░▀░█ █ █░▀█                
+
+                                
+
+
+
 function checkVersion()
 	PerformHttpRequest(
 		LatestVersionFeed,
