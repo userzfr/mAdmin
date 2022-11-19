@@ -890,6 +890,15 @@ Citizen.CreateThread(function()
             end)
         end 
 
+        function getEventsActif()
+            Config.EventActif = {}
+            ESX.TriggerServerCallback('mAdmin:GetEventStarted', function(events)
+                for k,v in pairs(events) do
+                    table.insert(Config.EventActif,{name = v.name, down = v.down, type = v.type, time = v.time})
+                end
+            end)
+        end
+
         Citizen.CreateThread(function()
             for i = 1, 100 do
                 table.insert(Config.MaxJoueurs, i)
