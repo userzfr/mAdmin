@@ -316,47 +316,47 @@ end)
 --================================--
 --             EVENT              --
 --================================--
-
-local ActifsEvents = {}
-RegisterNetEvent('mAdmin:StartEventsStaff')
-AddEventHandler('mAdmin:StartEventsStaff', function(type, time)
-	table.insert(ActifsEvents, {name = GetPlayerName(source), down = true, type = type, time = time*60*1000})
-end)
-
-ESX.RegisterServerCallback('mAdmin:GetEventStarted', function(source, cb)
-	if ActifsEvents ~= nil then
-		cb(ActifsEvents)
-	end
-end)
-
-local eventStarted = true
-RegisterNetEvent("mAdmin:StartsEvents")
-AddEventHandler("mAdmin:StartsEvents", function(type, time, number)
-	local randomEvent = Config.Events[type]
-	local i = math.random(1, #randomEvent.possibleZone)
-	local zone = randomEvent.possibleZone[i]
-	TriggerClientEvent("mAdmin:SendsEvents", -1, randomEvent, zone, time)
-	Citizen.Wait(time*60*1000)
-	TriggerClientEvent("mAdmin:DeleteEvent", -1)
-	if eventStarted then
-		TriggerClientEvent("mAdmin:StopsEvents", -1)
-	end
-end)
-
-RegisterNetEvent("mAdmin:GetMoneyInsEvents")
-AddEventHandler("mAdmin:GetMoneyInsEvents", function(nombre)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.addMoney(nombre)
-end)
-
-RegisterNetEvent("mAdmin:TakeRecInsEvents")
-AddEventHandler("mAdmin:TakeRecInsEvents", function()
-	TriggerClientEvent("mAdmin:StopsEvents", -1)
-	eventStarted = false
-end)
-
-RegisterNetEvent("mAdmin:GetItemInsEvents")
-AddEventHandler("mAdmin:GetItemInsEvents", function(item, nombre)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.addInventoryItem(item, nombre)
-end)
+--
+--local ActifsEvents = {}
+--RegisterNetEvent('mAdmin:StartEventsStaff')
+--AddEventHandler('mAdmin:StartEventsStaff', function(type, time)
+--	table.insert(ActifsEvents, {name = GetPlayerName(source), down = true, type = type, time = time*60*1000})
+--end)
+--
+--ESX.RegisterServerCallback('mAdmin:GetEventStarted', function(source, cb)
+--	if ActifsEvents ~= nil then
+--		cb(ActifsEvents)
+--	end
+--end)
+--
+--local eventStarted = true
+--RegisterNetEvent("mAdmin:StartsEvents")
+--AddEventHandler("mAdmin:StartsEvents", function(type, time, number)
+--	local randomEvent = Config.Events[type]
+--	local i = math.random(1, #randomEvent.possibleZone)
+--	local zone = randomEvent.possibleZone[i]
+--	TriggerClientEvent("mAdmin:SendsEvents", -1, randomEvent, zone, time)
+--	Citizen.Wait(time*60*1000)
+--	TriggerClientEvent("mAdmin:DeleteEvent", -1)
+--	if eventStarted then
+--		TriggerClientEvent("mAdmin:StopsEvents", -1)
+--	end
+--end)
+--
+--RegisterNetEvent("mAdmin:GetMoneyInsEvents")
+--AddEventHandler("mAdmin:GetMoneyInsEvents", function(nombre)
+--	local xPlayer = ESX.GetPlayerFromId(source)
+--	xPlayer.addMoney(nombre)
+--end)
+--
+--RegisterNetEvent("mAdmin:TakeRecInsEvents")
+--AddEventHandler("mAdmin:TakeRecInsEvents", function()
+--	TriggerClientEvent("mAdmin:StopsEvents", -1)
+--	eventStarted = false
+--end)
+--
+--RegisterNetEvent("mAdmin:GetItemInsEvents")
+--AddEventHandler("mAdmin:GetItemInsEvents", function(item, nombre)
+--	local xPlayer = ESX.GetPlayerFromId(source)
+--	xPlayer.addInventoryItem(item, nombre)
+--end)
