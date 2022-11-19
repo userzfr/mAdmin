@@ -269,7 +269,7 @@ end)
 
 CreateThread(function()
     Citizen.Wait(1250)
-	print("                            _               _         ")
+    print("                            _               _         ")
     print("                /\         | |             (_)        ")
     print(" _ __ ___      /  \      __| |  _ __ ___    _   _ __  ")
     print("| '_ ` _ \    / /\ \    / _` | | '_ ` _ \  | | | '_ \ ")
