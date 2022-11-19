@@ -890,6 +890,25 @@ Citizen.CreateThread(function()
             end)
         end 
 
+        Citizen.CreateThread(function()
+            for i = 1, 100 do
+                table.insert(Config.MaxJoueurs, i)
+            end
+            for i=1,15 do
+                table.insert(Config.TimeEvent, i)
+            end
+        end)
+        
+        RegisterNetEvent("mAdmin:DeleteEvent")
+        AddEventHandler("mAdmin:DeleteEvent", function()
+            ESX.TriggerServerCallback('mAdmin:GetEventStarted', function(events)
+                for k,v in pairs(events) do
+                    TriggerServerEvent("mAdmin:RemoveEvents", k)
+                    Config.EventActif = {}
+                end
+            end)
+        end)
+
         if (mAdmin.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(vehiculemenu, function()
                 RageUI.List('Véhicules', {

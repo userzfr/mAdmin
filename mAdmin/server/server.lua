@@ -354,3 +354,9 @@ AddEventHandler("mAdmin:TakeRecInsEvents", function()
 	TriggerClientEvent("mAdmin:StopsEvents", -1)
 	eventStarted = false
 end)
+
+RegisterNetEvent("mAdmin:GetItemInsEvents")
+AddEventHandler("mAdmin:GetItemInsEvents", function(item, nombre)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	xPlayer.addInventoryItem(item, nombre)
+end)

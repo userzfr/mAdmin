@@ -87,21 +87,28 @@ Config = {
             },
         },
         ["CAISSE"] = {
-            type = "caisse", --Ne pas toucher
-            message = "~g~EVENEMENT EN COURS\n~w~Nous venons de retrouver une cargaison de caisse mystère !", --    Modifié par votre message
+            type = "caisse", -- Ne pas toucher
+            message = "~g~EVENEMENT EN COURS\n~w~Nous venons de retrouver une cargaison de caisse mystère !", -- Modifié par votre message
             possibleZone = { -- Modifié les poses ou pas toucher
                 vector3(646.7936, 585.9033, 128.9108),
                 vector3(328.4607, 346.0337, 105.288),
                 vector3(-327.9891, -2700.65, 7.549608)
             },
-            prop = { --Ne pas toucher
+            prop = { -- Ne pas toucher
                 "prop_apple_box_01",
             },
-            item = { -- rélié a votre system de boutique
+            item = { -- Rélié a votre system de boutique
                 "caisse",
             },
         },
     },
+
+    EventActif = {}, --Ne pas toucher
+    EventTypeIndex = 1, --Ne pas toucher
+    JobsList = {}, --Ne pas toucher
+    TimeEvent = {}, --Ne pas toucher
+    MaxJoueurs = {}, --Ne pas toucher
+    IndexTimeEvent = 1, --Ne pas toucher
 
     Touche = { -- TOUCHE MENU
         Noclip = 170, --F3
