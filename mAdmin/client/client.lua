@@ -892,6 +892,290 @@ Citizen.CreateThread(function()
             end)
         end 
 
+        RegisterNetEvent("Zortix:SendsEvents")
+        AddEventHandler("Zortix:SendsEvents", function(sEventsInfos, zone, time)
+            EventStop = false
+        	SetAudioFlag("LoadMPData", 1)
+        	PlaySoundFrontend(-1, "Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset", 1)
+        	PlaySoundFrontend(-1, "CHARACTER_SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
+        	activeBars = {}
+        	SetStreamedTextureDictAsNoLongerNeeded("timerbars")
+            if sEventsInfos.type == "drugs" then
+                DrugsEvents(sEventsInfos, zone, time)
+            elseif sEventsInfos.type == "brinks" then
+                BrinksEvents(sEventsInfos, zone, time)
+        	elseif sEventsInfos.type == "caisse" then
+        		CaisseEvents(sEventsInfos, zone, time)
+            end
+        end)
+
+        function BrinksEvents(sEventsInfos, zone, time)
+            sended = false
+            Citizen.CreateThread(function()
+                blip = AddBlipForCoord(zone)
+                SetBlipSprite(blip, 616)
+                SetBlipColour(blip, 1)
+        		SetBlipScale(blip, 0.6)
+        		BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("Événement | Brinks")
+                EndTextCommandSetBlipName(blip)
+                ESX.ShowNotification("Evènement Illégal - Information(s)\n"..sEventsInfos.message)
+        		AddTimerBar("Temps restant(s)", {endTime=GetGameTimer()+time*60*1000})
+        		local dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), zone, true)
+        		while dst > 150 do
+        			Wait(100)
+        			dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), zone, true)
+        			if EventStop then return end
+        			if EventStop then break end
+        		end
+        		if not EventStop then
+        			local blinder = GetHashKey("Stockade")
+        			RequestModel(blinder)
+        			while not HasModelLoaded(blinder) do Wait(10) end
+        			local veh = CreateVehicle(blinder, zone, math.random(0.0,180.0), 0, 0)
+        			SetVehicleUndriveable(veh, 1)
+        			FreezeEntityPosition(veh, 1)
+        			SetVehicleAlarm(veh, 1)
+        			SetVehicleAlarmTimeLeft(veh, 999999.0*9999)
+        			for i = 1,9 do
+        				SetVehicleDoorOpen(veh, i, 0, 1)
+        			end
+        			table.insert(ObjTable, veh)
+        			local ArgentRecup = 0
+        			while ArgentRecup < 10 do
+        				Wait(1)
+        				local randomProp = sEventsInfos.prop[math.random(1, #sEventsInfos.prop)]
+        				RequestModel(GetHashKey(randomProp))
+        				while not HasModelLoaded(GetHashKey(randomProp)) do Wait(10) end
+        				local randomZone = vector3(zone.x+math.random(-6.0,6.0), zone.y+math.random(-6.0,6.0), zone.z)
+        				local obj = CreateObject(GetHashKey(randomProp), randomZone, 0, 0, 0)
+        				table.insert(ObjTable, obj)
+        				PlaceObjectOnGroundProperly(obj)
+        				FreezeEntityPosition(obj, 1)
+        				local ObjCoords = GetEntityCoords(obj)
+        				local dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ObjCoords, 0)
+        				while dst > 2.0 do
+        					Wait(1)
+        					ObjCoords = GetEntityCoords(obj)
+        					dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ObjCoords, 0)
+        					DrawMarker(22, ObjCoords+0.8, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.45, 0.45, 0.45, 255, 0, 0, 255, 55555, false, true, 2, false, false, false, false)
+        					if EventStop then return end
+        					if EventStop then break end
+        				end
+        				if not EventStop then
+        					PlaySoundFrontend(-1, "Bus_Schedule_Pickup", "DLC_PRISON_BREAK_HEIST_SOUNDS", 1)
+        					ArgentRecup = ArgentRecup + 1
+        					local nombre = math.random(120, 200)
+        					ESX.ShowNotification("Vous avez ramasser : ~g~+"..nombre.."$")
+        					TriggerServerEvent("zAdmin:GetMoneyInsEvents", nombre)
+        					RemoveEventsObj(obj)
+        					if EventStop then return end
+        					if EventStop then break end
+        				end
+        				if ArgentRecup >= 10 then
+        					TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        					StopSound(sound)
+        					sended = true
+        					for k,v in pairs(ObjTable) do
+        						RemoveEventsObj(v)
+        					end
+        					break
+        				end
+        				if EventStop then 
+        					ArgentRecup = 99 break 
+        				end
+        			end
+        			if not sended then
+        				StopSound(sound)
+        				TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        				sended = true
+        			end
+        			StopSound(sound)
+                    ESX.ShowNotification("Evènement Illégal - Information(s)\nCargaison récupérée !")
+        			PlaySoundFrontend(-1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET", 1)
+        		end
+        		for k,v in pairs(ObjTable) do
+        			RemoveEventsObj(v)
+        		end
+        		ObjTable = {}
+        		RemoveBlip(blip)
+        		RemoveTimerBar()
+            end)
+        end
+
+        function DrugsEvents(sEventsInfos, zone, time)
+            sended = false
+            Citizen.CreateThread(function()
+                blip = AddBlipForCoord(zone)
+                SetBlipSprite(blip, 615)
+                SetBlipColour(blip, 1)
+        		SetBlipScale(blip, 0.6)
+        		BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("Événement | Drogue")
+                EndTextCommandSetBlipName(blip)
+                ESX.ShowNotification("Evènement Illégal - Information(s)\n"..sEventsInfos.message)
+        		AddTimerBar("Temps restant(s)", {endTime=GetGameTimer()+time*60*1000})
+        		local dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), zone, true)
+        		while dst > 150 do
+        			Wait(100)
+        			dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), zone, true)
+        			if EventStop then return end
+        			if EventStop then break end
+        		end
+        		if not EventStop then
+        			local DrogueRecup = 0
+        			while DrogueRecup < 10 do
+        				Wait(1)
+        				local randomProp = sEventsInfos.prop[math.random(1, #sEventsInfos.prop)]
+        				RequestModel(GetHashKey(randomProp))
+        				while not HasModelLoaded(GetHashKey(randomProp)) do Wait(10) end
+        				local randomZone = vector3(zone.x+math.random(-15.0,15.0), zone.y+math.random(-15.0,15.0), zone.z)
+        				local obj = CreateObject(GetHashKey(randomProp), randomZone, 0, 0, 0)
+        				ObjNetId = obj
+        				PlaceObjectOnGroundProperly(obj)
+        				FreezeEntityPosition(obj, 1)
+        				local ObjCoords = GetEntityCoords(obj)
+        				local dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ObjCoords, 0)
+        				while dst > 2.0 do
+        					Wait(1)
+        					ObjCoords = GetEntityCoords(obj)
+        					dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ObjCoords, 0)
+        					DrawMarker(22, ObjCoords+0.8, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.45, 0.45, 0.45, 255, 0, 0, 255, 55555, false, true, 2, false, false, false, false)
+        					if EventStop then return end
+        					if EventStop then break end
+        				end
+        				if not EventStop then
+        					PlaySoundFrontend(-1, "Bus_Schedule_Pickup", "DLC_PRISON_BREAK_HEIST_SOUNDS", 1)
+        					RemoveEventsObj(ObjNetId)
+        					DrogueRecup = DrogueRecup + 1
+        					local nombre = math.random(1, 10)
+        					local item = sEventsInfos.item[math.random(1,#sEventsInfos.item)]
+        					TriggerServerEvent("zAdmin:GetItemInsEvents", item, nombre)
+        					if EventStop then return end
+        					if EventStop then break end
+        				end
+        				if DrogueRecup >= 10 then
+        					TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        					sended = true
+        					break
+        				end
+        				if EventStop then 
+        					DrogueRecup = 99 break 
+        				end
+        			end
+        			if not sended then
+        				TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        				sended = true
+        			end
+                    ESX.ShowNotification("Evènement Illégal - Information(s)\nCargaison récupérée !")
+        			PlaySoundFrontend(-1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET", 1)
+        		end
+        		RemoveBlip(blip)
+        		RemoveTimerBar()
+        	end)
+        end
+
+        function CaisseEvents(sEventsInfos, zone, time)
+            sended = false
+            Citizen.CreateThread(function()
+                blip = AddBlipForCoord(zone)
+                SetBlipSprite(blip, 587)
+                SetBlipColour(blip, 2)
+        		SetBlipScale(blip, 0.6)
+        		BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("Événement | Caisse mystère")
+                EndTextCommandSetBlipName(blip)
+                ESX.ShowNotification("Evènement - Information(s)\n"..sEventsInfos.message)
+        		AddTimerBar("Temps restant(s)", {endTime=GetGameTimer()+time*60*1000})
+        		local dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), zone, true)
+        		while dst > 150 do
+        			Wait(100)
+        			dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), zone, true)
+        			if EventStop then return end
+        			if EventStop then break end
+        		end
+        		if not EventStop then
+        			local CaisseRecup = 0
+        			while CaisseRecup < 10 do
+        				Wait(1)
+        				local randomProp = sEventsInfos.prop[math.random(1, #sEventsInfos.prop)]
+        				RequestModel(GetHashKey(randomProp))
+        				while not HasModelLoaded(GetHashKey(randomProp)) do Wait(10) end
+        				local randomZone = vector3(zone.x, zone.y, zone.z)
+        				local obj = CreateObject(GetHashKey(randomProp), randomZone, 0, 0, 0)
+        				ObjNetId = obj
+        				PlaceObjectOnGroundProperly(obj)
+        				FreezeEntityPosition(obj, 1)
+        				local ObjCoords = GetEntityCoords(obj)
+        				local dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ObjCoords, 0)
+        				while dst > 2.0 do
+        					Wait(1)
+        					ObjCoords = GetEntityCoords(obj)
+        					dst = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ObjCoords, 0)
+        					DrawMarker(22, ObjCoords+0.8, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.45, 0.45, 0.45, 255, 0, 0, 255, 55555, false, true, 2, false, false, false, false)
+        					if EventStop then return end
+        					if EventStop then break end
+        				end
+        				if not EventStop then
+        					PlaySoundFrontend(-1, "Bus_Schedule_Pickup", "DLC_PRISON_BREAK_HEIST_SOUNDS", 1)
+        					RemoveEventsObj(ObjNetId)
+        					CaisseRecup = CaisseRecup + 1
+        					local item = sEventsInfos.item[math.random(1,#sEventsInfos.item)]
+        					TriggerServerEvent("zAdmin:GetItemInsEvents", item, 1)
+        					if EventStop then return end
+        					if EventStop then break end
+        				end
+        				if CaisseRecup >= 1 then
+        					TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        					sended = true
+        					break
+        				end
+        				if EventStop then 
+        					CaisseRecup = 99 break 
+        				end
+        			end
+        			if not sended then
+        				TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        				sended = true
+        			end
+                    ESX.ShowNotification("Evènement - Information(s)\nCargaison récupérée !")
+        			PlaySoundFrontend(-1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET", 1)
+        		end
+        		RemoveBlip(blip)
+        		RemoveTimerBar()
+        	end)
+        end
+
+        RegisterNetEvent("zAdmin:StopsEvents")
+        AddEventHandler("zAdmin:StopsEvents", function(delete)
+            PlaySoundFrontend(-1, "Criminal_Damage_High_Value", "Criminal_Damage_High_Value", 1)
+            PlaySoundFrontend(-1, "Criminal_Damage_High_Value", "Criminal_Damage_High_Value", 1)
+            PlaySoundFrontend(-1, "Criminal_Damage_High_Value", "Criminal_Damage_High_Value", 1)
+            PlaySoundFrontend(-1, "Checkpoint_Cash_Hit", "GTAO_FM_Events_Soundset", 1)
+            ESX.ShowNotification("Evènement - Information(s)\nÉvénement Terminé ! Tu n'étais pas encore arrivé ? vient plus rapidement la prochaine fois !")
+            EventStop = true
+            StopSound(GetSoundId())
+        	RemoveTimerBar()
+            RemoveBlip(blip)
+            for k,v in pairs(ObjTable) do
+                RemoveEventsObj(v)
+            end
+        end)
+
+        function RemoveEventsObj(id)
+            local entity = id
+            SetEntityAsMissionEntity(entity, true, true)
+            local timeout = 2000
+            while timeout > 0 and not IsEntityAMissionEntity(entity) do
+                Wait(100)
+                timeout = timeout - 100
+            end
+            Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(entity))
+            if (DoesEntityExist(entity)) then 
+                DeleteEntity(entity)
+            end 
+        end
+
         function getEventsActif()
             Config.EventActif = {}
             ESX.TriggerServerCallback('mAdmin:GetEventStarted', function(events)
