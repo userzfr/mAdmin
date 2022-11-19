@@ -5,13 +5,13 @@ TriggerEvent('esx:getSharedObject', function(obj)
 end)
 
 local gamertag = {
-    ["user"] = "Joueurs",
-    ["help"] = "Helpeur",
-    ["mod"] = "Modo",
-    ["admin"] = "Modo Seignor",
-    ["superadmin"] = "Admin",
-    ["owner"] = "Gérant Serveur",
-    ["_dev"] = "Fondateur",
+    ["user"] = Config.Grade.user,
+    ["help"] = Config.Grade.help,
+    ["mod"] = Config.Grade.mod,
+    ["admin"] = Config.Grade.admin,
+    ["superadmin"] = Config.Grade.superadmin,
+    ["owner"] = Config.Grade.owner,
+    ["_dev"] = Config.Grade._dev,
 }
 
 local Listing = {}

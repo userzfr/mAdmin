@@ -32,6 +32,16 @@ Config = {
     helmet2 = 0,
     },
 
+    Grade = { -- Nom des grades
+    user = "Joueurs",
+    help = "Helpeur",
+    mod = "Modo",
+    admin = "Admin",
+    superadmin = "Super Admin",
+    owner = "owner",
+    _dev = "Dev",
+    },
+
     Touche = { -- TOUCHE MENU
         Noclip = 170, --F3
         Menu = 57, --F10
