@@ -662,11 +662,14 @@ Citizen.CreateThread(function()
                     end
                 }, tpmenu)
 
-                RageUI.Button('Créer un évènement(s)', nil, { RightLabel = "~g~→→" }, playergroup == 'admin', {
-                    onSelected = function()
-                        getEventsActif()
-                    end
-                }, eventmenu) 
+                if playergroup ~= nil and ( playergroup == '_dev' or playergroup == 'owner' or playergroup == 'superadmin' or playergroup == 'admin') then
+                    RageUI.Button('Créer un évènement(s)', nil, { RightLabel = "~b~→→" }, true, {
+                        onSelected = function()
+                            getEventsActif()
+                        end
+                    }, eventmenu) 
+                end
+
 
                 RageUI.Button('Véhicules', nil, { RightLabel = "~b~→→" }, true, {
                     onSelected = function()
