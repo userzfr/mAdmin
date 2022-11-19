@@ -83,6 +83,9 @@ utilsmenu:DisplayGlare(true)
 local tpmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Teleportation")
 tpmenu:DisplayGlare(true)
 
+local eventmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Evènements")
+eventmenu:DisplayGlare(true)
+
 local vehiculemenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Vehicule")
 vehiculemenu:DisplayGlare(true)
 
@@ -95,11 +98,11 @@ customNeon:DisplayGlare(true)
 local reportmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Liste Report")
 reportmenu:DisplayGlare(true)
 
----@class ARKALIS
-ARKALIS = {} or {};
+---@class mAdmin
+mAdmin = {} or {};
 
 ---@class SelfPlayer Administrator current settings
-ARKALIS.SelfPlayer = {
+mAdmin.SelfPlayer = {
     ped = 0,
     isStaffEnabled = false,
     isClipping = false,
@@ -111,25 +114,25 @@ ARKALIS.SelfPlayer = {
     isDelgunEnabled = false,
 };
 
-ARKALIS.SelectedPlayer = {};
+mAdmin.SelectedPlayer = {};
 
-ARKALIS.Menus = {} or {};
+mAdmin.Menus = {} or {};
 
-ARKALIS.Helper = {} or {}
+mAdmin.Helper = {} or {}
 
 ---@class Players
-ARKALIS.Players = {} or {} --- Players lists
+mAdmin.Players = {} or {} --- Players lists
 ---
-ARKALIS.PlayersStaff = {} or {} --- Players Staff
+mAdmin.PlayersStaff = {} or {} --- Players Staff
 
-ARKALIS.AllReport = {} or {} --- Players Staff
+mAdmin.AllReport = {} or {} --- Players Staff
 
 
 ---@class GamerTags
-ARKALIS.GamerTags = {} or {};
+mAdmin.GamerTags = {} or {};
 
 playerActionMenu.onClosed = function()
-    ARKALIS.SelectedPlayer = {};
+    mAdmin.SelectedPlayer = {};
     lisenceontheflux = nil;
 end
 
@@ -144,7 +147,7 @@ local specateactive = false
 
 function spectate(target)
     if not oldpos then
-        TriggerServerEvent("ARKALIS:teleport", target)
+        TriggerServerEvent("mAdmin:teleport", target)
         oldpos = GetEntityCoords(GetPlayerPed(PlayerId()))
 		SetEntityVisible(GetPlayerPed(PlayerId()), false)
         SetEntityCollision(GetPlayerPed(PlayerId()), false, false)
@@ -224,9 +227,9 @@ local colorNeon = 1;
 
 
 
-function ARKALIS.Helper:RetrievePlayersDataByID(source)
+function mAdmin.Helper:RetrievePlayersDataByID(source)
     local player = {};
-    for i, v in pairs(ARKALIS.Players) do
+    for i, v in pairs(mAdmin.Players) do
         if (v.source == source) then
             player = v;
         end
@@ -237,7 +240,7 @@ end
 
 
 
-function ARKALIS.Helper:onToggleNoClip(toggle)
+function mAdmin.Helper:onToggleNoClip(toggle)
     if (toggle) then
         ESX.ShowNotification("~g~Vous venez d'activer le noclip")
         if (ESX.GetPlayerData()['group'] ~= "user") then
@@ -246,41 +249,41 @@ function ARKALIS.Helper:onToggleNoClip(toggle)
             end
             SetCamActive(NoClip.Camera, true)
             RenderScriptCams(true, false, 0, true, true)
-            SetCamCoord(NoClip.Camera, GetEntityCoords(ARKALIS.SelfPlayer.ped))
-            SetCamRot(NoClip.Camera, GetEntityRotation(ARKALIS.SelfPlayer.ped))
+            SetCamCoord(NoClip.Camera, GetEntityCoords(mAdmin.SelfPlayer.ped))
+            SetCamRot(NoClip.Camera, GetEntityRotation(mAdmin.SelfPlayer.ped))
             SetEntityCollision(NoClip.Camera, false, false)
             SetEntityVisible(NoClip.Camera, false)
-            SetEntityVisible(ARKALIS.SelfPlayer.ped, false, false)
+            SetEntityVisible(mAdmin.SelfPlayer.ped, false, false)
         end
     else
         if (ESX.GetPlayerData()['group'] ~= "user") then
             ESX.ShowNotification("~r~Vous venez de désactiver le noclip")
             SetCamActive(NoClip.Camera, false)
             RenderScriptCams(false, false, 0, true, true)
-            SetEntityCollision(ARKALIS.SelfPlayer.ped, true, true)
-            SetEntityCoords(ARKALIS.SelfPlayer.ped, GetCamCoord(NoClip.Camera))
-            SetEntityHeading(ARKALIS.SelfPlayer.ped, GetGameplayCamRelativeHeading(NoClip.Camera))
-            if not (ARKALIS.SelfPlayer.isInvisible) then
-                SetEntityVisible(ARKALIS.SelfPlayer.ped, true, false)
+            SetEntityCollision(mAdmin.SelfPlayer.ped, true, true)
+            SetEntityCoords(mAdmin.SelfPlayer.ped, GetCamCoord(NoClip.Camera))
+            SetEntityHeading(mAdmin.SelfPlayer.ped, GetGameplayCamRelativeHeading(NoClip.Camera))
+            if not (mAdmin.SelfPlayer.isInvisible) then
+                SetEntityVisible(mAdmin.SelfPlayer.ped, true, false)
             end
         end
     end
 end
 
-RegisterNetEvent("ARKALIS:envoyer")
-AddEventHandler("ARKALIS:envoyer", function(msg)
+RegisterNetEvent("mAdmin:envoyer")
+AddEventHandler("mAdmin:envoyer", function(msg)
     ESX.ShowNotification('- ~r~Message du Staff~s~\n- '..msg)
     PlaySoundFrontend(-1, "CHARACTER_SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
 end)
 
-function ARKALIS.Helper:OnRequestGamerTags()
+function mAdmin.Helper:OnRequestGamerTags()
     for _, player in ipairs(GetActivePlayers()) do
         local ped = GetPlayerPed(player)
-        if (ARKALIS.GamerTags[ped] == nil) or (ARKALIS.GamerTags[ped].ped == nil) or not (IsMpGamerTagActive(ARKALIS.GamerTags[ped].tags)) then
+        if (mAdmin.GamerTags[ped] == nil) or (mAdmin.GamerTags[ped].ped == nil) or not (IsMpGamerTagActive(mAdmin.GamerTags[ped].tags)) then
             local formatted;
             local group = 0;
             local permission = 0;
-            local fetching = ARKALIS.Helper:RetrievePlayersDataByID(GetPlayerServerId(player));
+            local fetching = mAdmin.Helper:RetrievePlayersDataByID(GetPlayerServerId(player));
             if fetching.group ~= nil then
                 if fetching.group ~= "user" then
                     formatted = string.format('[' .. gamertag[fetching.group] .. '] %s | %s [%s]', GetPlayerName(player), GetPlayerServerId(player),fetching.jobs)
@@ -295,7 +298,7 @@ function ARKALIS.Helper:OnRequestGamerTags()
                 permission = fetching.permission
             end
 
-            ARKALIS.GamerTags[ped] = {
+            mAdmin.GamerTags[ped] = {
                 player = player,
                 ped = ped,
                 group = group,
@@ -310,14 +313,14 @@ end
 
 function RefreshPlayerGroup()
     Citizen.CreateThread(function()
-        ESX.TriggerServerCallback('ARKALIS:getUsergroup', function(group)
+        ESX.TriggerServerCallback('mAdmin:getUsergroup', function(group)
             playergroup = group
         end)   
     end)
 end
 
 
-function ARKALIS.Helper:RequestPtfx(assetName)
+function mAdmin.Helper:RequestPtfx(assetName)
     RequestNamedPtfxAsset(assetName)
     if not (HasNamedPtfxAssetLoaded(assetName)) then
         while not HasNamedPtfxAssetLoaded(assetName) do
@@ -329,7 +332,7 @@ function ARKALIS.Helper:RequestPtfx(assetName)
     end
 end
 
-function ARKALIS.Helper:CreateVehicle(model, vector3)
+function mAdmin.Helper:CreateVehicle(model, vector3)
     self:RequestModel(model)
     local vehicle = CreateVehicle(model, vector3, 100.0, true, false)
     local id = NetworkGetNetworkIdFromEntity(vehicle)
@@ -348,9 +351,9 @@ function ARKALIS.Helper:CreateVehicle(model, vector3)
     return vehicle, GetEntityCoords(vehicle);
 end
 
-function ARKALIS.Helper:OnGetPlayers()
+function mAdmin.Helper:OnGetPlayers()
     local clientPlayers = false;
-    ESX.TriggerServerCallback('ARKALIS:retrievePlayers', function(players)
+    ESX.TriggerServerCallback('mAdmin:retrievePlayers', function(players)
         clientPlayers = players
     end)
 
@@ -360,9 +363,9 @@ function ARKALIS.Helper:OnGetPlayers()
     return clientPlayers
 end
 
-function ARKALIS.Helper:OnGetStaffPlayers()
+function mAdmin.Helper:OnGetStaffPlayers()
     local clientPlayers = false;
-    ESX.TriggerServerCallback('ARKALIS:retrieveStaffPlayers', function(players)
+    ESX.TriggerServerCallback('mAdmin:retrieveStaffPlayers', function(players)
         clientPlayers = players
     end)
     while not clientPlayers do
@@ -371,8 +374,8 @@ function ARKALIS.Helper:OnGetStaffPlayers()
     return clientPlayers
 end
 
-function ARKALIS.Helper:GetReport()
-    ESX.TriggerServerCallback('ARKALIS:retrieveReport', function(allreport)
+function mAdmin.Helper:GetReport()
+    ESX.TriggerServerCallback('mAdmin:retrieveReport', function(allreport)
         ReportBB = allreport
     end)
     while not ReportBB do
@@ -398,31 +401,31 @@ function admin_vehicle_flip()
 
 end
 
-RegisterNetEvent("ARKALIS:RefreshReport")
-AddEventHandler("ARKALIS:RefreshReport", function()
-    ARKALIS.GetReport = ARKALIS.Helper:GetReport()
+RegisterNetEvent("mAdmin:RefreshReport")
+AddEventHandler("mAdmin:RefreshReport", function()
+    mAdmin.GetReport = mAdmin.Helper:GetReport()
 end)
 
-function ARKALIS.Helper:onStaffMode(status)
+function mAdmin.Helper:onStaffMode(status)
     if (status) then
         onStaffMode = true
         CreateThread(function()
             while onStaffMode do
-                Visual.Subtitle("Nom : ~b~"..GetPlayerName(PlayerId()).."~s~ | Report actuels : ~b~" .. #ARKALIS.GetReport , 999999999999999)
+                Visual.Subtitle("Nom : ~b~"..GetPlayerName(PlayerId()).."~s~ | Report actuels : ~b~" .. #mAdmin.GetReport , 999999999999999)
                 Citizen.Wait(1000)
             end
         end)
-        ARKALIS.PlayersStaff = ARKALIS.Helper:OnGetStaffPlayers()
-        ARKALIS.GetReport = ARKALIS.Helper:GetReport()
+        mAdmin.PlayersStaff = mAdmin.Helper:OnGetStaffPlayers()
+        mAdmin.GetReport = mAdmin.Helper:GetReport()
     else
         onStaffMode = false
-        Visual.Subtitle("Report actifs : ~r~" .. #ARKALIS.GetReport , 1)
-        if (ARKALIS.SelfPlayer.isClipping) then
-            ARKALIS.Helper:onToggleNoClip(false)
+        Visual.Subtitle("Report actifs : ~r~" .. #mAdmin.GetReport , 1)
+        if (mAdmin.SelfPlayer.isClipping) then
+            mAdmin.Helper:onToggleNoClip(false)
         end
-        if (ARKALIS.SelfPlayer.isInvisible) then
-            ARKALIS.SelfPlayer.isInvisible = false;
-            SetEntityVisible(ARKALIS.SelfPlayer.ped, true, false)
+        if (mAdmin.SelfPlayer.isInvisible) then
+            mAdmin.SelfPlayer.isInvisible = false;
+            SetEntityVisible(mAdmin.SelfPlayer.ped, true, false)
         end
     end
     
@@ -431,10 +434,10 @@ end
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(5000)
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
-            ARKALIS.Players = ARKALIS.Helper:OnGetPlayers()
-            ARKALIS.PlayersStaff = ARKALIS.Helper:OnGetStaffPlayers()
-            ARKALIS.GetReport = ARKALIS.Helper:GetReport()
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
+            mAdmin.Players = mAdmin.Helper:OnGetPlayers()
+            mAdmin.PlayersStaff = mAdmin.Helper:OnGetStaffPlayers()
+            mAdmin.GetReport = mAdmin.Helper:GetReport()
         end
     end
 end)
@@ -451,16 +454,16 @@ local pedIndex = 1
 local ValuePed = 'u_m_m_streetart_01'
 local NamePed = 'Pogo 1'
 
-RegisterNetEvent("ARKALIS:noclipkey")
-AddEventHandler("ARKALIS:noclipkey", function()
+RegisterNetEvent("mAdmin:noclipkey")
+AddEventHandler("mAdmin:noclipkey", function()
     RefreshPlayerGroup()
-    if (ARKALIS.SelfPlayer.isStaffEnabled) then
-        if (ARKALIS.SelfPlayer.isClipping) then
-            ARKALIS.Helper:onToggleNoClip(false)
-            ARKALIS.SelfPlayer.isClipping = false
+    if (mAdmin.SelfPlayer.isStaffEnabled) then
+        if (mAdmin.SelfPlayer.isClipping) then
+            mAdmin.Helper:onToggleNoClip(false)
+            mAdmin.SelfPlayer.isClipping = false
         else
-            ARKALIS.Helper:onToggleNoClip(true)
-            ARKALIS.SelfPlayer.isClipping = true 
+            mAdmin.Helper:onToggleNoClip(true)
+            mAdmin.SelfPlayer.isClipping = true 
         end
     else
         ESX.ShowNotification("~r~Active le mode Staff")
@@ -468,20 +471,20 @@ AddEventHandler("ARKALIS:noclipkey", function()
     print("Presse Key - F3")
 end)
 
-RegisterNetEvent("ARKALIS:menu1")
-AddEventHandler("ARKALIS:menu1", function()
+RegisterNetEvent("mAdmin:menu1")
+AddEventHandler("mAdmin:menu1", function()
     RefreshPlayerGroup()
-    ARKALIS.Players = ARKALIS.Helper:OnGetPlayers();
-    ARKALIS.PlayersStaff = ARKALIS.Helper:OnGetStaffPlayers()
-    ARKALIS.GetReport = ARKALIS.Helper:GetReport()
+    mAdmin.Players = mAdmin.Helper:OnGetPlayers();
+    mAdmin.PlayersStaff = mAdmin.Helper:OnGetStaffPlayers()
+    mAdmin.GetReport = mAdmin.Helper:GetReport()
     RageUI.Visible(mainMenu, not RageUI.Visible(mainMenu))
     print("Presse Key - F10")
 end)
 
-RegisterNetEvent("ARKALIS:menu2")
-AddEventHandler("ARKALIS:menu2", function()
+RegisterNetEvent("mAdmin:menu2")
+AddEventHandler("mAdmin:menu2", function()
     RefreshPlayerGroup()
-    ARKALIS.GetReport = ARKALIS.Helper:GetReport()
+    mAdmin.GetReport = mAdmin.Helper:GetReport()
     RageUI.Visible(reportmenu, not RageUI.Visible(reportmenu))
     print("Presse Key - F11")
 end)
@@ -493,22 +496,22 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
 
         if (IsControlJustPressed(0, Config.Touche.Noclip)) then --F3
-            TriggerServerEvent("ARKALIS:noclipkey")
+            TriggerServerEvent("mAdmin:noclipkey")
         end
 
         if (IsControlJustPressed(0, Config.Touche.Menu)) then
-            TriggerServerEvent("ARKALIS:ouvrirmenu1")
+            TriggerServerEvent("mAdmin:ouvrirmenu1")
         end
 
         if (IsControlJustPressed(0, Config.Touche.MenuReport)) then
-            TriggerServerEvent("ARKALIS:ouvrirmenu2")
+            TriggerServerEvent("mAdmin:ouvrirmenu2")
         end
 
         RageUI.IsVisible(mainMenu, function()
 
-            RageUI.Separator("Joueurs : ~b~" .. #ARKALIS.Players.. "~s~ | Staff en ligne : ~b~" .. #ARKALIS.PlayersStaff .. "")
+            RageUI.Separator("Joueurs : ~b~" .. #mAdmin.Players.. "~s~ | Staff en ligne : ~b~" .. #mAdmin.PlayersStaff .. "")
             if onStaffMode == false then
-            RageUI.Separator("Report actifs : ~b~" ..#ARKALIS.GetReport)
+            RageUI.Separator("Report actifs : ~b~" ..#mAdmin.GetReport)
 
             RageUI.Line(52, 235, 235, 200)
 
@@ -524,11 +527,11 @@ Citizen.CreateThread(function()
 
             --RageUI.Separator('Ped : ~b~'.. NamePed)
 
-            RageUI.Checkbox("Prendre son service", "Le mode staff ne peut être utilisé que pour modérer le serveur, tout abus sera sévèrement puni, l'intégralité de vos actions sera enregistrée.", ARKALIS.SelfPlayer.isStaffEnabled, { }, {
+            RageUI.Checkbox("Prendre son service", "Le mode staff ne peut être utilisé que pour modérer le serveur, tout abus sera sévèrement puni, l'intégralité de vos actions sera enregistrée.", mAdmin.SelfPlayer.isStaffEnabled, { }, {
                 onChecked = function()
                     PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", 1)
-                    ARKALIS.Helper:onStaffMode(true)
-                    TriggerServerEvent('ARKALIS:onStaffJoin')
+                    mAdmin.Helper:onStaffMode(true)
+                    TriggerServerEvent('mAdmin:onStaffJoin')
                     TriggerEvent('skinchanger:getSkin', function(skin)
                         TriggerEvent('skinchanger:loadClothes', skin, {
                         ['bags_1'] = Config.Tennue.bag, ['bags_2'] = Config.Tennue.bag2,
@@ -546,30 +549,30 @@ Citizen.CreateThread(function()
                 end,
                 onUnChecked = function()
                     PlaySoundFrontend(-1, "Click", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-                    ARKALIS.Helper:onStaffMode(false)
-                    TriggerServerEvent('ARKALIS:onStaffLeave')
+                    mAdmin.Helper:onStaffMode(false)
+                    TriggerServerEvent('mAdmin:onStaffLeave')
                     ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
                         TriggerEvent('skinchanger:loadSkin', skin)
                     end)
                 end,
                 onSelected = function(Index)
-                    ARKALIS.SelfPlayer.isStaffEnabled = Index
+                    mAdmin.SelfPlayer.isStaffEnabled = Index
                 end
             })
             
 
-            if (ARKALIS.SelfPlayer.isStaffEnabled) then
+            if (mAdmin.SelfPlayer.isStaffEnabled) then
 
                 RageUI.Line(52, 235, 235, 200)
 
                 RageUI.Button('Intéractions Joueurs', nil, { RightLabel = "~b~→→" }, true, {
                     onSelected = function()
-                        selectedMenu:SetSubtitle(string.format('Joueurs en lignes [%s]', #ARKALIS.Players))
+                        selectedMenu:SetSubtitle(string.format('Joueurs en lignes [%s]', #mAdmin.Players))
                         selectedIndex = 1;
                     end
                 }, selectedMenu)
 
-                RageUI.Button('Report en attente', nil, { RightLabel = '~b~'..#ARKALIS.GetReport }, true, {
+                RageUI.Button('Report en attente', nil, { RightLabel = '~b~'..#mAdmin.GetReport }, true, {
                     onSelected = function()
                     end
                 }, reportmenu)
@@ -577,50 +580,50 @@ Citizen.CreateThread(function()
                 RageUI.Line(52, 235, 235, 200)
 
 
-                RageUI.Checkbox("Caméra Libre", "Vous permet de vous déplacer librement sur toute la carte sous forme de caméra libre.", ARKALIS.SelfPlayer.isClipping, { }, {
+                RageUI.Checkbox("Caméra Libre", "Vous permet de vous déplacer librement sur toute la carte sous forme de caméra libre.", mAdmin.SelfPlayer.isClipping, { }, {
                     onChecked = function()
-                    TriggerServerEvent("ARKALIS:SendLogs", "Active noclip")
-                    ARKALIS.Helper:onToggleNoClip(true)
+                    TriggerServerEvent("mAdmin:SendLogs", "Active noclip")
+                    mAdmin.Helper:onToggleNoClip(true)
                     end,
                     onUnChecked = function()
-                    TriggerServerEvent("ARKALIS:SendLogs", "Désactive noclip")
-                    ARKALIS.Helper:onToggleNoClip(false)
+                    TriggerServerEvent("mAdmin:SendLogs", "Désactive noclip")
+                    mAdmin.Helper:onToggleNoClip(false)
                     end,
                     onSelected = function(Index)
-                    ARKALIS.SelfPlayer.isClipping = Index
+                    mAdmin.SelfPlayer.isClipping = Index
                     end
                 }, selectedMenu)
 
-                RageUI.Checkbox("Afficher les Noms", "L'affichage des tags des joueurs vous permet de voir les informations des joueurs, y compris de vous reconnaître entre les membres du personnel grâce à votre couleur.", ARKALIS.SelfPlayer.isGamerTagEnabled, { }, {
+                RageUI.Checkbox("Afficher les Noms", "L'affichage des tags des joueurs vous permet de voir les informations des joueurs, y compris de vous reconnaître entre les membres du personnel grâce à votre couleur.", mAdmin.SelfPlayer.isGamerTagEnabled, { }, {
                     onChecked = function()
                     if (ESX.GetPlayerData()['group'] ~= "user") then
-                    TriggerServerEvent("ARKALIS:SendLogs", "Active GamerTags")
-                    ARKALIS.Helper:OnRequestGamerTags()
+                    TriggerServerEvent("mAdmin:SendLogs", "Active GamerTags")
+                    mAdmin.Helper:OnRequestGamerTags()
                     end
                     end,
                     onUnChecked = function()
-                    for i, v in pairs(ARKALIS.GamerTags) do
-                    TriggerServerEvent("ARKALIS:SendLogs", "Désactive GamerTags")
+                    for i, v in pairs(mAdmin.GamerTags) do
+                    TriggerServerEvent("mAdmin:SendLogs", "Désactive GamerTags")
                     RemoveMpGamerTag(v.tags)
                     end
-                    ARKALIS.GamerTags = {};
+                    mAdmin.GamerTags = {};
                     end,
                     onSelected = function(Index)
-                    ARKALIS.SelfPlayer.isGamerTagEnabled = Index
+                    mAdmin.SelfPlayer.isGamerTagEnabled = Index
                     end
                 }, selectedMenu)
 
-                RageUI.Checkbox("Mode Invisible", nil, ARKALIS.SelfPlayer.isInvisible, { }, {
+                RageUI.Checkbox("Mode Invisible", nil, mAdmin.SelfPlayer.isInvisible, { }, {
                     onChecked = function()
-                    TriggerServerEvent("ARKALIS:SendLogs", "Active invisible")
-                    SetEntityVisible(ARKALIS.SelfPlayer.ped, false, false)
+                    TriggerServerEvent("mAdmin:SendLogs", "Active invisible")
+                    SetEntityVisible(mAdmin.SelfPlayer.ped, false, false)
                     end,
                     onUnChecked = function()
-                    TriggerServerEvent("ARKALIS:SendLogs", "Désactive invisible")
-                    SetEntityVisible(ARKALIS.SelfPlayer.ped, true, false)
+                    TriggerServerEvent("mAdmin:SendLogs", "Désactive invisible")
+                    SetEntityVisible(mAdmin.SelfPlayer.ped, true, false)
                     end,
                     onSelected = function(Index)
-                        ARKALIS.SelfPlayer.isInvisible = Index
+                        mAdmin.SelfPlayer.isInvisible = Index
                     end
                 })
 
@@ -632,7 +635,7 @@ Citizen.CreateThread(function()
                         SetVehicleFixed(plyVeh)
                         SetVehicleDirtLevel(plyVeh, 0.0)
                         ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'Le ~r~véhicule~s~ a été réparé', 'CHAR_SUNLITE', 2)
-                        TriggerServerEvent("ARKALIS:SendLogs", "Repair Vehicle")
+                        TriggerServerEvent("mAdmin:SendLogs", "Repair Vehicle")
                     end
                 })
 
@@ -642,8 +645,8 @@ Citizen.CreateThread(function()
                 end    
                 RageUI.Button('Spectate Aléatoire', nil, { RightLabel = gang }, true, {
                     onSelected = function()
-                        local number = #ARKALIS.Players
-                        local target = ARKALIS.Players[math.random(0~number)].source
+                        local number = #mAdmin.Players
+                        local target = mAdmin.Players[math.random(0~number)].source
                         if target == GetPlayerServerId(PlayerId()) then
                             ESX.ShowNotification("Votre ID a été sélectionné mais vous ne pouvez pas vous spec vous même ! Réessayer !")
                         else
@@ -658,6 +661,12 @@ Citizen.CreateThread(function()
                     onSelected = function()
                     end
                 }, tpmenu)
+
+                RageUI.Button('Créer un évènement(s)', nil, { RightLabel = "~g~→→" }, playergroup == 'admin', {
+                    onSelected = function()
+                        getEventsActif()
+                    end
+                }, eventmenu) 
 
                 RageUI.Button('Véhicules', nil, { RightLabel = "~b~→→" }, true, {
                     onSelected = function()
@@ -674,7 +683,7 @@ Citizen.CreateThread(function()
             end
         end)
 
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(inventoryMenu, function()
                 for i, v in pairs(TARGET_INVENTORY) do
                     RageUI.Button(v.label, nil, { RightLabel = v.count }, true, {
@@ -687,7 +696,7 @@ Citizen.CreateThread(function()
         end
 
 
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(tpmenu, function()
 
             RageUI.Button('TP sur point', 'Permet de se ~r~téléporter~s~ sur un ~r~point~s~', { RightLabel = gang }, true, {
@@ -713,7 +722,7 @@ Citizen.CreateThread(function()
         
                             SetPedCoordsKeepVehicle(plyPed, waypointCoords.x, waypointCoords.y, zPos)
                             ESX.ShowNotification("Vous avez été TP")
-                            TriggerServerEvent("ARKALIS:SendLogs", "Se TP sur le waypoint")
+                            TriggerServerEvent("mAdmin:SendLogs", "Se TP sur le waypoint")
                         end)
                     else
                         ESX.ShowNotification("Pas de marqueur sur la carte")
@@ -727,7 +736,7 @@ Citizen.CreateThread(function()
                 end,
                 onSelected = function(Index, Item)
                 SetEntityCoords(PlayerPedId(), Item.Value)
-                TriggerServerEvent("ARKALIS:SendLogs", "Utilise le fast travel")
+                TriggerServerEvent("mAdmin:SendLogs", "Utilise le fast travel")
                 end
             })
             RageUI.List('→ Téléportation Toits', FastTravel2, FastTravelIndex2, nil, {}, true, {
@@ -736,40 +745,40 @@ Citizen.CreateThread(function()
                 end,
                 onSelected = function(Index, Item)
                 SetEntityCoords(PlayerPedId(), Item.Value)
-                TriggerServerEvent("ARKALIS:SendLogs", "Utilise le fast travel")
+                TriggerServerEvent("mAdmin:SendLogs", "Utilise le fast travel")
                 end
             })
         end)
     end
 
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(utilsmenu, function()
 
                 RageUI.Separator("~r~↓ ~s~Developpement ~r~↓")
 
-                RageUI.Checkbox("→ Affiché les Coordonnées", "Affiche les ~o~coordonnées", ARKALIS.SelfPlayer.ShowCoords, { }, {
+                RageUI.Checkbox("→ Affiché les Coordonnées", "Affiche les ~o~coordonnées", mAdmin.SelfPlayer.ShowCoords, { }, {
                     onChecked = function()
-                        TriggerServerEvent("ARKALIS:SendLogs", "Affiche les coordonnées")
+                        TriggerServerEvent("mAdmin:SendLogs", "Affiche les coordonnées")
                         coords = true
                     end,
                     onUnChecked = function()
-                        TriggerServerEvent("ARKALIS:SendLogs", "Désactive l'affichage des coordonnées")
+                        TriggerServerEvent("mAdmin:SendLogs", "Désactive l'affichage des coordonnées")
                         coords = false
                     end,
                     onSelected = function(Index)
-                        ARKALIS.SelfPlayer.ShowCoords = Index
+                        mAdmin.SelfPlayer.ShowCoords = Index
                     end
                 })
 
-                RageUI.Checkbox("→ Delgun", 'Active le ~g~pistolet~s~ qui ~r~delete', ARKALIS.SelfPlayer.isDelgunEnabled, { }, {
+                RageUI.Checkbox("→ Delgun", 'Active le ~g~pistolet~s~ qui ~r~delete', mAdmin.SelfPlayer.isDelgunEnabled, { }, {
                     onChecked = function()
-                        TriggerServerEvent("ARKALIS:SendLogs", "Active Delgun")
+                        TriggerServerEvent("mAdmin:SendLogs", "Active Delgun")
                     end,
                     onUnChecked = function()
-                        TriggerServerEvent("ARKALIS:SendLogs", "Désactive Delgun")
+                        TriggerServerEvent("mAdmin:SendLogs", "Désactive Delgun")
                     end,
                     onSelected = function(Index)
-                        ARKALIS.SelfPlayer.isDelgunEnabled = Index
+                        mAdmin.SelfPlayer.isDelgunEnabled = Index
                     end
                 })
 
@@ -813,7 +822,75 @@ Citizen.CreateThread(function()
             end)
         end
 
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
+        if (mAdmin.SelfPlayer.isStaffEnabled) then 
+            RageUI.IsVisible(eventmenu, function() 
+                if #Config.EventActif== 0 then
+                    RageUI.Separator("")
+                    RageUI.Separator("~g~Aucun évenénement est en cours :(")
+                    RageUI.Separator("")
+                end
+                for a,b in pairs(Config.EventActif) do
+                    RageUI.Separator('↓ ~g~Un évenénement est en cours~s~ ! ↓')
+                    RageUI.Separator("Type d'événement : ~g~"..b.type)
+                    RageUI.Separator("Évenénement lancer par : ~g~"..b.name)
+                    for i,v in pairs(activeBars) do
+                        local remainingTime = math.floor(v.endTime - GetGameTimer())
+                        RageUI.Separator("Temps restant(s) : ~g~"..SecondsToClock(remainingTime / 1000))
+                    end
+                end
+                RageUI.List('→ Définir le type de l\'événement', {"Caisse", "Brinks", "Drogue"}, Config.EventTypeIndex, nil, {}, true, {
+                    onListChange = function(Index, Item)
+                        Config.EventTypeIndex = Index;
+                    end
+                })
+
+                if Config.EventTypeIndex == 1 then
+                    RageUI.List('→ Définir le temps en minute(s) :', Config.TimeEvent, Config.IndexTimeEvent, nil, {}, #Config.EventActif == 0, {
+                        onListChange = function(Index, Item)
+                            Config.IndexTimeEvent = Index;
+                        end
+                    }) 
+                    RageUI.Button("→ Commencer l'évenénement", nil, { RightLabel = "→→" }, #Config.EventActif == 0, {
+                        onSelected = function()
+                            TriggerServerEvent("mAdmin:StartEventsStaff", "Caisse mystère", Config.IndexTimeEvent)
+                            TriggerServerEvent("mAdmin:StartsEvents", "CAISSE", Config.IndexTimeEvent)
+                            getEventsActif()
+                            print("ok1")
+                        end
+                    })
+                elseif Config.EventTypeIndex == 2 then 
+                    RageUI.List('→ Définir le temps en minute(s) :', Config.TimeEvent, Config.IndexTimeEvent, nil, {}, #Config.EventActif == 0, {
+                        onListChange = function(Index, Item)
+                            Config.IndexTimeEvent = Index;
+                        end
+                    }) 
+                    RageUI.Button("→ Commencer l'évenénement", nil, { RightLabel = "→→" }, #Config.EventActif == 0, {
+                        onSelected = function()
+                            TriggerServerEvent("mAdmin:StartEventsStaff", "Brinks", Config.IndexTimeEvent)
+                            TriggerServerEvent("mAdmin:StartsEvents", "BRINKS", Config.IndexTimeEvent)
+                            getEventsActif()
+                            print("ok2")
+                        end
+                    })
+                elseif Config.EventTypeIndex == 3 then 
+                    RageUI.List('→ Définir le temps en minute(s) :', Config.TimeEvent, Config.IndexTimeEvent, nil, {}, #Config.EventActif == 0, {
+                        onListChange = function(Index, Item)
+                            Config.IndexTimeEvent = Index;
+                        end
+                    }) 
+                    RageUI.Button("→ Commencer l'évenénement", nil, { RightLabel = "→→" }, #Config.EventActif == 0, {
+                        onSelected = function()
+                            TriggerServerEvent("mAdmin:StartEventsStaff", "Drogue", Config.IndexTimeEvent)
+                            TriggerServerEvent("mAdmin:StartsEvents", "DRUGS", Config.IndexTimeEvent)
+                            getEventsActif()
+                            print("ok3")
+                        end
+                    })
+                end
+            end)
+        end 
+
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(vehiculemenu, function()
                 RageUI.List('Véhicules', {
                     { Name = "Véhicule personnalisée", Value = nil },
@@ -827,12 +904,12 @@ Citizen.CreateThread(function()
                     end,
                     onSelected = function(Index, Item)
                         if Item.Value == nil then
-                            local modelName = KeyboardInput('ARKALIS_BOX_VEHICLE_NAME', "Veuillez entrer le ~r~nom~s~ du véhicule", '', 50)
-                            TriggerEvent('ARKALIS:spawnVehicle', modelName)
-                            TriggerServerEvent("ARKALIS:SendLogs", "Spawn custom vehicle")
+                            local modelName = KeyboardInput('mAdmin_BOX_VEHICLE_NAME', "Veuillez entrer le ~r~nom~s~ du véhicule", '', 50)
+                            TriggerEvent('mAdmin:spawnVehicle', modelName)
+                            TriggerServerEvent("mAdmin:SendLogs", "Spawn custom vehicle")
                         else
-                            TriggerEvent('ARKALIS:spawnVehicle', Item.Value)
-                            TriggerServerEvent("ARKALIS:SendLogs", "Spawn vehicle")
+                            TriggerEvent('mAdmin:spawnVehicle', Item.Value)
+                            TriggerServerEvent("mAdmin:SendLogs", "Spawn vehicle")
                         end
                     end,
                 })
@@ -842,7 +919,7 @@ Citizen.CreateThread(function()
                         SetVehicleFixed(plyVeh)
                         SetVehicleDirtLevel(plyVeh, 0.0)
                         ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'Le ~r~véhicule~s~ a été réparé', 'CHAR_SUNLITE', 2)
-                        TriggerServerEvent("ARKALIS:SendLogs", "Repair Vehicle")
+                        TriggerServerEvent("mAdmin:SendLogs", "Repair Vehicle")
                     end
                 })
 
@@ -870,7 +947,7 @@ Citizen.CreateThread(function()
                         GroupIndex = Index;
                     end,
                     onSelected = function(Index, Item)
-                        TriggerServerEvent("ARKALIS:SendLogs", "Delete vehicle zone")
+                        TriggerServerEvent("mAdmin:SendLogs", "Delete vehicle zone")
                         ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'La ~r~suppression~s~ a été effectué', 'CHAR_SUNLITE', 2)
                         local playerPed = PlayerPedId()
                         local radius = Item.Value
@@ -916,10 +993,10 @@ Citizen.CreateThread(function()
                 RageUI.Button('~r~Changer~s~ la plaque', nil, {}, true, {
                     onSelected = function()
                         if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
-                            local plaqueVehicule = KeyboardInput('ARKALIS_PLAQUE_NAME',"Veuillez entrer le ~r~nom~s~ de la plaque", "", 8)
+                            local plaqueVehicule = KeyboardInput('mAdmin_PLAQUE_NAME',"Veuillez entrer le ~r~nom~s~ de la plaque", "", 8)
                             SetVehicleNumberPlateText(GetVehiclePedIsIn(GetPlayerPed(-1), false) , plaqueVehicule)
                             ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'Le nom de la plaque est désormais : ~r~' ..plaqueVehicule, 'CHAR_SUNLITE', 2)
-                            TriggerServerEvent("ARKALIS:SendLogs", "Plaque Changé")
+                            TriggerServerEvent("mAdmin:SendLogs", "Plaque Changé")
                         else
                             ESX.ShowAdvancedNotification('Administration', '~r~Informations', '~r~Erreur :~s~ Vous n\'êtes pas dans un véhicule ~r~', 'CHAR_SUNLITE', 2)
                         end
@@ -1057,13 +1134,13 @@ Citizen.CreateThread(function()
         end})     
     end)
 
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(selectedMenu, function()
-                table.sort(ARKALIS.Players, function(a,b) return a.source < b.source end)
+                table.sort(mAdmin.Players, function(a,b) return a.source < b.source end)
                 if (selectedIndex == 1) then
-                    if (#ARKALIS.Players > 0) then
+                    if (#mAdmin.Players > 0) then
 
-                        for i, v in pairs(ARKALIS.Players) do
+                        for i, v in pairs(mAdmin.Players) do
                             local gamertage = {
                                 ["user"] = "Joueurs",
                                 ["help"] = "Helpeur",
@@ -1076,7 +1153,7 @@ Citizen.CreateThread(function()
                             RageUI.Button(string.format('[%s] %s [%s]', v.source, v.name, gamertage[v.group]), 'Job : ~b~'..v.jobs..'~s~ | Gourp : ~b~'..v.group..'', {}, true, {
                                 onSelected = function()
                                     playerActionMenu:SetSubtitle(string.format('[%s] %s', i, v.name))
-                                    ARKALIS.SelectedPlayer = v;
+                                    mAdmin.SelectedPlayer = v;
                                 end
                             }, playerActionMenu)
                         end
@@ -1085,8 +1162,8 @@ Citizen.CreateThread(function()
                     end
                 end
                 if (selectedIndex == 2) then
-                    if (#ARKALIS.PlayersStaff > 0) then
-                        for i, v in pairs(ARKALIS.PlayersStaff) do
+                    if (#mAdmin.PlayersStaff > 0) then
+                        for i, v in pairs(mAdmin.PlayersStaff) do
                             local colors = {
                                 ["_dev"] = '~r~',
                                 ["superadmin"] = '~o~',
@@ -1096,7 +1173,7 @@ Citizen.CreateThread(function()
                             RageUI.Button(string.format('%s[%s] %s', colors[v.group], v.source, v.name), nil, {}, true, {
                                 onSelected = function()
                                     playerActionMenu:SetSubtitle(string.format('[%s] %s', v.source, v.name))
-                                    ARKALIS.SelectedPlayer = v;
+                                    mAdmin.SelectedPlayer = v;
                                 end
                             }, playerActionMenu)
                         end
@@ -1108,7 +1185,7 @@ Citizen.CreateThread(function()
                 if (selectedIndex == 3) then
                     --idtosanctionbaby
 
-                    for i, v in pairs(ARKALIS.Players) do
+                    for i, v in pairs(mAdmin.Players) do
                         if v.source == idtosanctionbaby then
                             RageUI.Separator("~b~↓~s~ INFORMATION ~b~↓")
                             RageUI.Button('ID : ' .. idtosanctionbaby, nil, {}, true, {
@@ -1145,7 +1222,7 @@ Citizen.CreateThread(function()
                     })
                     RageUI.Button('Raison du ban', nil, { RightLabel = '~b~'..raisontosend }, true, {
                         onSelected = function()
-                            local Raison = KeyboardInput('ARKALIS_BOX_BAN_RAISON', "Raison du ban", '', 50)
+                            local Raison = KeyboardInput('mAdmin_BOX_BAN_RAISON', "Raison du ban", '', 50)
                             raisontosend = Raison
                         end
                     })
@@ -1158,7 +1235,7 @@ Citizen.CreateThread(function()
                 end
 
                 if (selectedIndex == 4) then
-                    for i, v in pairs(ARKALIS.Players) do
+                    for i, v in pairs(mAdmin.Players) do
                         if v.source == idtosanctionbaby then
                             RageUI.Separator("~b~↓~s~ INFORMATION ~b~↓")
                             RageUI.Button('ID : ' .. idtosanctionbaby, nil, {}, true, {
@@ -1179,19 +1256,19 @@ Citizen.CreateThread(function()
                     RageUI.Separator("~b~↓~s~ SANCTION ~b~↓")
                     RageUI.Button('Raison du kick', nil, { RightLabel = '~b~'..raisontosend }, true, {
                         onSelected = function()
-                            local Raison = KeyboardInput('ARKALIS_BOX_BAN_RAISON', "Raison du kick", '', 50)
+                            local Raison = KeyboardInput('mAdmin_BOX_BAN_RAISON', "Raison du kick", '', 50)
                             raisontosend = Raison
                         end
                     })
 
                     RageUI.Button('Valider', nil, { RightLabel = "✅" }, true, {
                         onSelected = function()
-                            TriggerServerEvent("ARKALIS:kick", idtosanctionbaby, raisontosend)
+                            TriggerServerEvent("mAdmin:kick", idtosanctionbaby, raisontosend)
                         end
                     })
                 end
                 if (selectedIndex == 6) then
-                    for i, v in pairs(ARKALIS.Players) do
+                    for i, v in pairs(mAdmin.Players) do
                         if v.source == idtoreport then
                             RageUI.Button('Nom : ~b~' .. v.name, nil, {}, true, {
                                 onSelected = function()
@@ -1212,23 +1289,23 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('Se Teleporter sur lui', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent("ARKALIS:teleport", idtoreport)
+                            TriggerServerEvent("mAdmin:teleport", idtoreport)
                         end
                     })
                     RageUI.Button('Le Teleporter sur moi', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent("ARKALIS:teleportTo", idtoreport)
+                            TriggerServerEvent("mAdmin:teleportTo", idtoreport)
                         end
                     })
                     RageUI.Button('Le Teleporter au Parking Central', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent('ARKALIS:teleportcoords', idtoreport, vector3(215.76, -810.12, 30.73))
+                            TriggerServerEvent('mAdmin:teleportcoords', idtoreport, vector3(215.76, -810.12, 30.73))
                         end
                     })
 
                     RageUI.Button('Le Revive', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent("ARKALIS:Revive", idtoreport)
+                            TriggerServerEvent("mAdmin:Revive", idtoreport)
                         end
                     })
 
@@ -1236,9 +1313,9 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('~g~Report Effectué', nil, { }, true, {
                         onSelected = function()
-                            TriggerServerEvent("ARKALIS:ReportRegle", kvdureport)
-                            TriggerEvent("ARKALIS:RefreshReport")
-                            TriggerServerEvent("ARKALIS:SendLogs", "Report Cloturer")
+                            TriggerServerEvent("mAdmin:ReportRegle", kvdureport)
+                            TriggerEvent("mAdmin:RefreshReport")
+                            TriggerServerEvent("mAdmin:SendLogs", "Report Cloturer")
                         end
                     }, reportmenu)
                 end
@@ -1253,28 +1330,28 @@ Citizen.CreateThread(function()
 
                 RageUI.Button("Spectate", nil, { RightLabel = yo }, true, { 
                     onSelected = function()
-                        spectate(ARKALIS.SelectedPlayer.source)
+                        spectate(mAdmin.SelectedPlayer.source)
                     end 
                 })
 
                 RageUI.Button('Le Revive', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent("ARKALIS:Revive", ARKALIS.SelectedPlayer.source)
+                        TriggerServerEvent("mAdmin:Revive", mAdmin.SelectedPlayer.source)
                     end
                 })
 
                 RageUI.Button('Send Private Message', nil, {}, true, {
                     onSelected = function()
-                        local msg = KeyboardInput('ARKALIS_BOX_BAN_RAISON', "Message Privée", '', 50)
+                        local msg = KeyboardInput('mAdmin_BOX_BAN_RAISON', "Message Privée", '', 50)
                         
                         if msg ~= nil then
                             msg = tostring(msg)
                     
                             if type(msg) == 'string' then
-                                TriggerServerEvent("ARKALIS:Message", ARKALIS.SelectedPlayer.source, msg)
+                                TriggerServerEvent("mAdmin:Message", mAdmin.SelectedPlayer.source, msg)
                             end
                         end
-                        ESX.ShowNotification("Vous venez d'envoyer le message à ~r~" .. GetPlayerName(GetPlayerFromServerId(ARKALIS.SelectedPlayer.source)))
+                        ESX.ShowNotification("Vous venez d'envoyer le message à ~r~" .. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)))
                     end
                 })
 
@@ -1282,18 +1359,18 @@ Citizen.CreateThread(function()
                 
                 RageUI.Button('Vous téléporter sur lui', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent('ARKALIS:teleport', ARKALIS.SelectedPlayer.source)
+                        TriggerServerEvent('mAdmin:teleport', mAdmin.SelectedPlayer.source)
                     end
                 })
                 RageUI.Button('Téléporter vers vous', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent('ARKALIS:teleportTo', ARKALIS.SelectedPlayer.source)
+                        TriggerServerEvent('mAdmin:teleportTo', mAdmin.SelectedPlayer.source)
                     end
                 })
 
                 RageUI.Button('Le téléporter au Parking Central', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent('ARKALIS:teleportcoords', ARKALIS.SelectedPlayer.source, vector3(215.76, -810.12, 30.73))
+                        TriggerServerEvent('mAdmin:teleportcoords', mAdmin.SelectedPlayer.source, vector3(215.76, -810.12, 30.73))
                     end
                 })
 
@@ -1302,7 +1379,7 @@ Citizen.CreateThread(function()
                 RageUI.Button('Bannir le joueur', nil, {}, true, {
                     onSelected = function()
                         selectedMenu:SetSubtitle(string.format('Bannir le joueur'))
-                        idtosanctionbaby = ARKALIS.SelectedPlayer.source
+                        idtosanctionbaby = mAdmin.SelectedPlayer.source
                         selectedIndex = 3;
                     end
                 }, selectedMenu)
@@ -1310,7 +1387,7 @@ Citizen.CreateThread(function()
                 RageUI.Button('Kick le joueur', nil, {}, true, {
                     onSelected = function()
                         selectedMenu:SetSubtitle(string.format('Kick le joueur'))
-                        idtosanctionbaby = ARKALIS.SelectedPlayer.source
+                        idtosanctionbaby = mAdmin.SelectedPlayer.source
                         selectedIndex = 4;
                     end
                 }, selectedMenu)
@@ -1319,22 +1396,22 @@ Citizen.CreateThread(function()
 
                 RageUI.Button("Clear l'inventaire du Joueur", nil, {RightLabel = nil}, true, {
                     onSelected = function()
-                        ExecuteCommand("clearinventory "..ARKALIS.SelectedPlayer.source)
-                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les items de ~b~".. GetPlayerName(GetPlayerFromServerId(ARKALIS.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 																
+                        ExecuteCommand("clearinventory "..mAdmin.SelectedPlayer.source)
+                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les items de ~b~".. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 																
                     end
                 })
 
                 RageUI.Button("Clear les Armes du Joueur", nil, {RightLabel = nil}, true, {
                     onSelected = function()
-                        ExecuteCommand("clearloadout "..ARKALIS.SelectedPlayer.source)
-                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les armes de ~b~".. GetPlayerName(GetPlayerFromServerId(ARKALIS.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 								
+                        ExecuteCommand("clearloadout "..mAdmin.SelectedPlayer.source)
+                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les armes de ~b~".. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 								
                     end
                 })
 
             end)
 
             RageUI.IsVisible(reportmenu, function()
-                for i, v in pairs(ARKALIS.GetReport) do
+                for i, v in pairs(mAdmin.GetReport) do
                     if i == 0 then
                         return
                     end
@@ -1349,7 +1426,7 @@ Citizen.CreateThread(function()
                 end
             end)
         end
-        for i, onTick in pairs(ARKALIS.Menus) do
+        for i, onTick in pairs(mAdmin.Menus) do
             onTick();
         end
     end
@@ -1371,8 +1448,8 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
 
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
-            if (ARKALIS.SelfPlayer.isDelgunEnabled) then
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
+            if (mAdmin.SelfPlayer.isDelgunEnabled) then
                 if IsPlayerFreeAiming(PlayerId()) then
                     local entity = getEntity(PlayerId())
                     if GetEntityType(entity) == 2 or 3 then
@@ -1384,8 +1461,8 @@ Citizen.CreateThread(function()
                 end
             end
 
-            --if (ARKALIS.SelfPlayer.isStaffEnabled) then
-                if (ARKALIS.SelfPlayer.ShowCoords) then
+            --if (mAdmin.SelfPlayer.isStaffEnabled) then
+                if (mAdmin.SelfPlayer.ShowCoords) then
                     plyPed = PlayerPedId()
                     local plyCoords = GetEntityCoords(plyPed, false)
                     Text('~b~X~s~: ' .. ESX.Math.Round(plyCoords.x, 2) .. '\n~o~Y~s~: ' .. ESX.Math.Round(plyCoords.y, 2) .. '\n~g~Z~s~: ' .. ESX.Math.Round(plyCoords.z, 2) .. '\n~r~H~s~: ' .. ESX.Math.Round(GetEntityPhysicsHeading(plyPed), 2))
@@ -1405,7 +1482,7 @@ Citizen.CreateThread(function()
                 EndTextCommandDisplayText(0.175, 0.81)
             end
 
-            if (ARKALIS.SelfPlayer.isClipping) then
+            if (mAdmin.SelfPlayer.isClipping) then
                 --HideHudAndRadarThisFrame()
 
                 local camCoords = GetCamCoord(NoClip.Camera)
@@ -1437,7 +1514,7 @@ Citizen.CreateThread(function()
                     end
                 end
 
-                SetEntityCoords(ARKALIS.SelfPlayer.ped, camCoords.x, camCoords.y, camCoords.z)
+                SetEntityCoords(mAdmin.SelfPlayer.ped, camCoords.x, camCoords.y, camCoords.z)
 
                 local xMagnitude = GetDisabledControlNormal(0, 1)
                 local yMagnitude = GetDisabledControlNormal(0, 2)
@@ -1454,8 +1531,8 @@ Citizen.CreateThread(function()
                 SetCamRot(NoClip.Camera, x, y, z)
             end
 
-            if (ARKALIS.SelfPlayer.isGamerTagEnabled) then
-                for i, v in pairs(ARKALIS.GamerTags) do
+            if (mAdmin.SelfPlayer.isGamerTagEnabled) then
+                for i, v in pairs(mAdmin.GamerTags) do
                     local target = GetEntityCoords(v.ped, false);
 
                     if #(target - GetEntityCoords(PlayerPedId())) < 120 then
@@ -1477,7 +1554,7 @@ Citizen.CreateThread(function()
                         SetMpGamerTagColour(v.tags, 0, colors[v.group] or 0)
                     else
                         RemoveMpGamerTag(v.tags)
-                        ARKALIS.GamerTags[i] = nil;
+                        mAdmin.GamerTags[i] = nil;
                     end
                 end
 
@@ -1490,10 +1567,10 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        ARKALIS.SelfPlayer.ped = GetPlayerPed(-1);
-        if (ARKALIS.SelfPlayer.isStaffEnabled) then
-            if (ARKALIS.SelfPlayer.isGamerTagEnabled) then
-                ARKALIS.Helper:OnRequestGamerTags();
+        mAdmin.SelfPlayer.ped = GetPlayerPed(-1);
+        if (mAdmin.SelfPlayer.isStaffEnabled) then
+            if (mAdmin.SelfPlayer.isGamerTagEnabled) then
+                mAdmin.Helper:OnRequestGamerTags();
             end
         end
         Citizen.Wait(1000)
@@ -1501,19 +1578,19 @@ Citizen.CreateThread(function()
 end)
 
 
-RegisterNetEvent('ARKALIS:teleport')
-AddEventHandler('ARKALIS:teleport', function(coords)
-    if (ARKALIS.SelfPlayer.isClipping) then
+RegisterNetEvent('mAdmin:teleport')
+AddEventHandler('mAdmin:teleport', function(coords)
+    if (mAdmin.SelfPlayer.isClipping) then
         SetCamCoord(NoClip.Camera, coords.x, coords.y, coords.z)
-        SetEntityCoords(ARKALIS.SelfPlayer.ped, coords.x, coords.y, coords.z)
+        SetEntityCoords(mAdmin.SelfPlayer.ped, coords.x, coords.y, coords.z)
     else
         ESX.Game.Teleport(PlayerPedId(), coords)
     end
 end)
 
-RegisterNetEvent('ARKALIS:spawnVehicle')
-AddEventHandler('ARKALIS:spawnVehicle', function(model)
-    if (ARKALIS.SelfPlayer.isStaffEnabled) then
+RegisterNetEvent('mAdmin:spawnVehicle')
+AddEventHandler('mAdmin:spawnVehicle', function(model)
+    if (mAdmin.SelfPlayer.isStaffEnabled) then
         model = (type(model) == 'number' and model or GetHashKey(model))
 
         if IsModelInCdimage(model) then
@@ -1564,7 +1641,7 @@ end
 Citizen.CreateThread(function()
     Wait(500)
     while true do
-        if (ARKALIS.SelfPlayer.isGamerTagEnabled) then
+        if (mAdmin.SelfPlayer.isGamerTagEnabled) then
             for _, id in ipairs(GetActivePlayers()) do
                 local serverId = GetPlayerServerId(id)
                 local CCS = {
@@ -1605,7 +1682,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        if (ARKALIS.SelfPlayer.isGamerTagEnabled) then
+        if (mAdmin.SelfPlayer.isGamerTagEnabled) then
             for _, id in ipairs(GetActivePlayers()) do
 
                 x1, y1, z1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))

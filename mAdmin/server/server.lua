@@ -7,6 +7,45 @@ TriggerEvent('esx:getSharedObject', function(obj)
 end)
 
 --================================--
+--         VERSION CHECK          --
+--================================--
+
+--Citizen.CreateThread(
+--	checkVersion
+--)
+--
+--Version = "1.9.0"
+--LatestVersionFeed = "https://api.github.com/repos/Matdbx10/mAdmin/releases/latest"
+--
+--function checkVersion()
+--	PerformHttpRequest(
+--		LatestVersionFeed,
+--		function(errorCode, data, headers)
+--			if tonumber(errorCode) == 200 then
+--				data = json.decode(data)
+--				if not data then
+--					print("^3[mAdmin]^7 Couldn't check version - no data returned!")
+--					return
+--				end
+--				if data.tag_name == "v" .. Version then
+--					print("^2[mAdmin]^7 Up to date.")
+--				else
+--					print(("^3[mAdmin]^7 The script isn't up to date! Please update to version %s."):format(data.tag_name))
+--				end
+--			else
+--				print(("^3[mAdmin]^7 Couldn't check version! Error code %s."):format(errorCode))
+--				print(LatestVersionFeed)
+--			end
+--		end,
+--		'GET',
+--		'',
+--		{
+--			['User-Agent'] = ("mAdmin v%s"):format(Version)
+--		}
+--	)
+--end
+
+--================================--
 --         Début du script        --
 --================================--
 
@@ -54,21 +93,21 @@ RegisterCommand('report', function(source, args, user)
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
         if xPlayer.getGroup() == "help" or xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "owner" or xPlayer.getGroup() == "superadmin" or xPlayer.getGroup() == "_dev" then
             TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, 'REPORT', 'Nouveaux report de ~r~'..GetPlayerName(source)..' ~s~| ~b~'..source..'', 'Message: ~n~~u~'.. table.concat(args, " "), 'CHAR_CHAT_CALL', 0)
-            TriggerClientEvent("ARKALIS:RefreshReport", xPlayer.source)
+            TriggerClientEvent("mAdmin:RefreshReport", xPlayer.source)
         end
     end
 end)
 
 -- Prise des rôle user
 
-ESX.RegisterServerCallback('ARKALIS:getUsergroup', function(source, cb)
+ESX.RegisterServerCallback('mAdmin:getUsergroup', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local group = xPlayer.getGroup()
 	cb(group)
 end)
 
-RegisterServerEvent("ARKALIS:SendLogs")
-AddEventHandler("ARKALIS:SendLogs", function(action)
+RegisterServerEvent("mAdmin:SendLogs")
+AddEventHandler("mAdmin:SendLogs", function(action)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
         PerformHttpRequest(Config.webhook.SendLogs, function(err, text, headers) end, 'POST', json.encode({username = "AdminMenu", content = "```\nNom : " .. GetPlayerName(source) .. "\nAction : ".. action .." !```" }), { ['Content-Type'] = 'application/json' })
@@ -77,8 +116,8 @@ AddEventHandler("ARKALIS:SendLogs", function(action)
     end
 end)
 
-RegisterServerEvent("ARKALIS:onStaffJoin")
-AddEventHandler("ARKALIS:onStaffJoin", function()
+RegisterServerEvent("mAdmin:onStaffJoin")
+AddEventHandler("mAdmin:onStaffJoin", function()
     local xPlayer = ESX.GetPlayerFromId(source)
     local xPlayers = ESX.GetPlayers()
     for i = 1, #xPlayers, 1 do
@@ -96,8 +135,8 @@ AddEventHandler("ARKALIS:onStaffJoin", function()
     end
 end)
 
-RegisterServerEvent("ARKALIS:onStaffLeave")
-AddEventHandler("ARKALIS:onStaffLeave", function()
+RegisterServerEvent("mAdmin:onStaffLeave")
+AddEventHandler("mAdmin:onStaffLeave", function()
     local xPlayer = ESX.GetPlayerFromId(source)
     local xPlayers = ESX.GetPlayers()
     for i = 1, #xPlayers, 1 do
@@ -114,30 +153,30 @@ AddEventHandler("ARKALIS:onStaffLeave", function()
     end
 end)
 
-RegisterServerEvent("ARKALIS:teleport")
-AddEventHandler("ARKALIS:teleport", function(id)
+RegisterServerEvent("mAdmin:teleport")
+AddEventHandler("mAdmin:teleport", function(id)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
         PerformHttpRequest(Config.webhook.teleport , function(err, text, headers) end, 'POST', json.encode({username = "AdminMenu", content = "``TELEPORT``\n```\nNom : " .. GetPlayerName(source) .. "\nAction : Téléporter aux joueurs ! " .. "\n\n" .. "Nom de la personne : " .. GetPlayerName(id) .. "```" }), { ['Content-Type'] = 'application/json' })
-        TriggerClientEvent("ARKALIS:teleport", source, GetEntityCoords(GetPlayerPed(id)))
+        TriggerClientEvent("mAdmin:teleport", source, GetEntityCoords(GetPlayerPed(id)))
     else
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
 end)
 
-RegisterServerEvent("ARKALIS:teleportTo")
-AddEventHandler("ARKALIS:teleportTo", function(id)
+RegisterServerEvent("mAdmin:teleportTo")
+AddEventHandler("mAdmin:teleportTo", function(id)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
         PerformHttpRequest(Config.webhook.teleportTo , function(err, text, headers) end, 'POST', json.encode({username = "AdminMenu", content = "``TELEPORT SUR SOI MEME``\n```\nNom : " .. GetPlayerName(source) .. "\nAction : Téléportez les joueurs à l'administrateur ! " .. "\n\n" .. "Nom de la personne : " .. GetPlayerName(id) .. "```" }), { ['Content-Type'] = 'application/json' })
-        TriggerClientEvent("ARKALIS:teleport", id, GetEntityCoords(GetPlayerPed(source)))
+        TriggerClientEvent("mAdmin:teleport", id, GetEntityCoords(GetPlayerPed(source)))
     else
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
 end)
 
-RegisterServerEvent("ARKALIS:Revive")
-AddEventHandler("ARKALIS:Revive", function(id)
+RegisterServerEvent("mAdmin:Revive")
+AddEventHandler("mAdmin:Revive", function(id)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
         PerformHttpRequest(Config.webhook.revive, function(err, text, headers) end, 'POST', json.encode({username = "AdminMenu", content = "``REVIVE``\n```\nNom : " .. GetPlayerName(source) .. "\nAction : Revive ! " .. "\n\n" .. "Nom de la personne revive : " .. GetPlayerName(id) .. "```" }), { ['Content-Type'] = 'application/json' })
@@ -147,18 +186,18 @@ AddEventHandler("ARKALIS:Revive", function(id)
     end
 end)
 
-RegisterServerEvent("ARKALIS:teleportcoords")
-AddEventHandler("ARKALIS:teleportcoords", function(id, coords)
+RegisterServerEvent("mAdmin:teleportcoords")
+AddEventHandler("mAdmin:teleportcoords", function(id, coords)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
-        TriggerClientEvent("ARKALIS:teleport", id, vector3(215.76, -810.12, 30.73))
+        TriggerClientEvent("mAdmin:teleport", id, vector3(215.76, -810.12, 30.73))
     else
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
 end)
 
-RegisterServerEvent("ARKALIS:kick")
-AddEventHandler("ARKALIS:kick", function(id, reason)
+RegisterServerEvent("mAdmin:kick")
+AddEventHandler("mAdmin:kick", function(id, reason)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
         PerformHttpRequest(Config.webhook.kick, function(err, text, headers) end, 'POST', json.encode({username = "AdminMenu", content = "``KICK``\n```\nNom : " .. GetPlayerName(source) .. "\nAction : Kick Players ! " .. "\n\n" .. "Nom de la personne  : " .. GetPlayerName(id) .. "\n" .. "Reason : " .. reason .. "```" }), { ['Content-Type'] = 'application/json' })
@@ -168,18 +207,18 @@ AddEventHandler("ARKALIS:kick", function(id, reason)
     end
 end)
 
-RegisterServerEvent("ARKALIS:Ban")
-AddEventHandler("ARKALIS:Ban", function(id, temps, raison)
+RegisterServerEvent("mAdmin:Ban")
+AddEventHandler("mAdmin:Ban", function(id, temps, raison)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
-        TriggerEvent("SqlBan:ARKALISBan", id, temps, raison, source)
+        TriggerEvent("SqlBan:mAdminBan", id, temps, raison, source)
     else
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
 end)
 
-RegisterServerEvent("ARKALIS:ReportRegle")
-AddEventHandler("ARKALIS:ReportRegle", function(idt)
+RegisterServerEvent("mAdmin:ReportRegle")
+AddEventHandler("mAdmin:ReportRegle", function(idt)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
@@ -195,7 +234,7 @@ AddEventHandler("ARKALIS:ReportRegle", function(idt)
     end
 end)
 
-ESX.RegisterServerCallback('ARKALIS:retrievePlayers', function(playerId, cb)
+ESX.RegisterServerCallback('mAdmin:retrievePlayers', function(playerId, cb)
     local players = {}
     local xPlayers = ESX.GetPlayers()
 
@@ -213,7 +252,7 @@ ESX.RegisterServerCallback('ARKALIS:retrievePlayers', function(playerId, cb)
     cb(players)
 end)
 
-ESX.RegisterServerCallback('ARKALIS:retrieveStaffPlayers', function(playerId, cb)
+ESX.RegisterServerCallback('mAdmin:retrieveStaffPlayers', function(playerId, cb)
     local playersadmin = {}
     local xPlayers = ESX.GetPlayers()
 
@@ -233,43 +272,85 @@ end
     cb(playersadmin)
 end)
 
-RegisterServerEvent("ARKALIS:noclipkey")
-AddEventHandler("ARKALIS:noclipkey", function()
+RegisterServerEvent("mAdmin:noclipkey")
+AddEventHandler("mAdmin:noclipkey", function()
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() == "help" or xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" or xPlayer.getGroup() == "owner" or xPlayer.getGroup() == "_dev" then
-        TriggerClientEvent("ARKALIS:noclipkey", source)    
+        TriggerClientEvent("mAdmin:noclipkey", source)    
     end
 end)
 
 
-RegisterServerEvent("ARKALIS:ouvrirmenu1")
-AddEventHandler("ARKALIS:ouvrirmenu1", function()
+RegisterServerEvent("mAdmin:ouvrirmenu1")
+AddEventHandler("mAdmin:ouvrirmenu1", function()
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() == "help" or xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" or xPlayer.getGroup() == "owner" or xPlayer.getGroup() == "_dev" then
-        TriggerClientEvent("ARKALIS:menu1", source)        
+        TriggerClientEvent("mAdmin:menu1", source)        
     end
 end)
 
-RegisterServerEvent("ARKALIS:ouvrirmenu2")
-AddEventHandler("ARKALIS:ouvrirmenu2", function()
+RegisterServerEvent("mAdmin:ouvrirmenu2")
+AddEventHandler("mAdmin:ouvrirmenu2", function()
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() == "help" or xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" or xPlayer.getGroup() == "owner" or xPlayer.getGroup() == "_dev" then
-        TriggerClientEvent("ARKALIS:menu2", source)    
+        TriggerClientEvent("mAdmin:menu2", source)    
     end
 end)
 
 
-ESX.RegisterServerCallback('ARKALIS:retrieveReport', function(playerId, cb)
+ESX.RegisterServerCallback('mAdmin:retrieveReport', function(playerId, cb)
     cb(allreport)
 end)
 
-RegisterNetEvent("ARKALIS:Message")
-AddEventHandler("ARKALIS:Message", function(id, type)
-	TriggerClientEvent("ARKALIS:envoyer", id, type)
+RegisterNetEvent("mAdmin:Message")
+AddEventHandler("mAdmin:Message", function(id, type)
+	TriggerClientEvent("mAdmin:envoyer", id, type)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getGroup() ~= "user" then
-        TriggerClientEvent("ARKALIS:envoyer", id, type)
+        TriggerClientEvent("mAdmin:envoyer", id, type)
     else
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
+end)
+
+--================================--
+--             EVENT              --
+--================================--
+
+local ActifsEvents = {}
+RegisterNetEvent('Zortix:StartEventsStaff')
+AddEventHandler('Zortix:StartEventsStaff', function(type, time)
+	table.insert(ActifsEvents, {name = GetPlayerName(source), down = true, type = type, time = time*60*1000})
+end)
+
+ESX.RegisterServerCallback('Zortix:GetEventStarted', function(source, cb)
+	if ActifsEvents ~= nil then
+		cb(ActifsEvents)
+	end
+end)
+
+local eventStarted = true
+RegisterNetEvent("Zortix:StartsEvents")
+AddEventHandler("Zortix:StartsEvents", function(type, time, number)
+	local randomEvent = Config.Events[type]
+	local i = math.random(1, #randomEvent.possibleZone)
+	local zone = randomEvent.possibleZone[i]
+	TriggerClientEvent("Zortix:SendsEvents", -1, randomEvent, zone, time)
+	Citizen.Wait(time*60*1000)
+	TriggerClientEvent("Zortix:DeleteEvent", -1)
+	if eventStarted then
+		TriggerClientEvent("zAdmin:StopsEvents", -1)
+	end
+end)
+
+RegisterNetEvent("zAdmin:GetMoneyInsEvents")
+AddEventHandler("zAdmin:GetMoneyInsEvents", function(nombre)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	xPlayer.addMoney(nombre)
+end)
+
+RegisterNetEvent("zAdmin:TakeRecInsEvents")
+AddEventHandler("zAdmin:TakeRecInsEvents", function()
+	TriggerClientEvent("zAdmin:StopsEvents", -1)
+	eventStarted = false
 end)
