@@ -269,7 +269,6 @@ end)
 
 CreateThread(function()
     Citizen.Wait(1250)
-    print('')
 	print("                            _               _         ")
     print("                /\         | |             (_)        ")
     print(" _ __ ___      /  \      __| |  _ __ ___    _   _ __  ")
