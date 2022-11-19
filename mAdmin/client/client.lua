@@ -855,7 +855,7 @@ Citizen.CreateThread(function()
                             TriggerServerEvent("mAdmin:StartEventsStaff", "Caisse mystère", Config.IndexTimeEvent)
                             TriggerServerEvent("mAdmin:StartsEvents", "CAISSE", Config.IndexTimeEvent)
                             getEventsActif()
-                            print("ok1")
+                            print("Event: Caisse mystère")
                         end
                     })
                 elseif Config.EventTypeIndex == 2 then 
@@ -869,7 +869,7 @@ Citizen.CreateThread(function()
                             TriggerServerEvent("mAdmin:StartEventsStaff", "Brinks", Config.IndexTimeEvent)
                             TriggerServerEvent("mAdmin:StartsEvents", "BRINKS", Config.IndexTimeEvent)
                             getEventsActif()
-                            print("ok2")
+                            print("Event: Brinks")
                         end
                     })
                 elseif Config.EventTypeIndex == 3 then 
@@ -883,7 +883,7 @@ Citizen.CreateThread(function()
                             TriggerServerEvent("mAdmin:StartEventsStaff", "Drogue", Config.IndexTimeEvent)
                             TriggerServerEvent("mAdmin:StartsEvents", "DRUGS", Config.IndexTimeEvent)
                             getEventsActif()
-                            print("ok3")
+                            print("Event: Drogue")
                         end
                     })
                 end

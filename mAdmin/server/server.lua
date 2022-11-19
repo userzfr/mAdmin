@@ -318,26 +318,26 @@ end)
 --================================--
 
 local ActifsEvents = {}
-RegisterNetEvent('Zortix:StartEventsStaff')
-AddEventHandler('Zortix:StartEventsStaff', function(type, time)
+RegisterNetEvent('mAdmin:StartEventsStaff')
+AddEventHandler('mAdmin:StartEventsStaff', function(type, time)
 	table.insert(ActifsEvents, {name = GetPlayerName(source), down = true, type = type, time = time*60*1000})
 end)
 
-ESX.RegisterServerCallback('Zortix:GetEventStarted', function(source, cb)
+ESX.RegisterServerCallback('mAdmin:GetEventStarted', function(source, cb)
 	if ActifsEvents ~= nil then
 		cb(ActifsEvents)
 	end
 end)
 
 local eventStarted = true
-RegisterNetEvent("Zortix:StartsEvents")
-AddEventHandler("Zortix:StartsEvents", function(type, time, number)
+RegisterNetEvent("mAdmin:StartsEvents")
+AddEventHandler("mAdmin:StartsEvents", function(type, time, number)
 	local randomEvent = Config.Events[type]
 	local i = math.random(1, #randomEvent.possibleZone)
 	local zone = randomEvent.possibleZone[i]
-	TriggerClientEvent("Zortix:SendsEvents", -1, randomEvent, zone, time)
+	TriggerClientEvent("mAdmin:SendsEvents", -1, randomEvent, zone, time)
 	Citizen.Wait(time*60*1000)
-	TriggerClientEvent("Zortix:DeleteEvent", -1)
+	TriggerClientEvent("mAdmin:DeleteEvent", -1)
 	if eventStarted then
 		TriggerClientEvent("zAdmin:StopsEvents", -1)
 	end
