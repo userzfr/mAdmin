@@ -670,7 +670,6 @@ Citizen.CreateThread(function()
                     }, eventmenu) 
                 end
 
-
                 RageUI.Button('Véhicules', nil, { RightLabel = "~b~→→" }, true, {
                     onSelected = function()
                     end
