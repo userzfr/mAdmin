@@ -1,16 +1,91 @@
--- Trigger ESX
+--================================--
+--         Trigger ESX            --
+--================================--
 
 TriggerEvent('esx:getSharedObject', function(obj)
     ESX = obj
 end)
 
--- Début du script
+--================================--
+--         VERSION CHECK          --
+--================================--
+
+Version = "1.9.0"
+LatestVersionFeed = "https://api.github.com/repos/Matdbx10/mAdmin/releases/latest"
+
+Citizen.CreateThread(
+	checkVersion
+)
+
+
+function checkVersion()
+	PerformHttpRequest(
+		LatestVersionFeed,
+		function(errorCode, data, headers)
+			if tonumber(errorCode) == 200 then
+				data = json.decode(data)
+				if not data then
+                    print("                            _               _         ")
+                    print("                /\         | |             (_)        ")
+                    print(" _ __ ___      /  \      __| |  _ __ ___    _   _ __  ")
+                    print("| '_ ` _ \    / /\ \    / _` | | '_ ` _ \  | | | '_ \ ")
+                    print("| | | | | |  / ____ \  | (_| | | | | | | | | | | | | |")
+                    print("|_| |_| |_| /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|")
+                    print("                                                      ")
+					print("^3[mAdmin]^7 Couldn't check version - no data returned!")
+					return
+				end
+				if data.tag_name == "v" .. Version then
+                    print("                            _               _         ")
+                    print("                /\         | |             (_)        ")
+                    print(" _ __ ___      /  \      __| |  _ __ ___    _   _ __  ")
+                    print("| '_ ` _ \    / /\ \    / _` | | '_ ` _ \  | | | '_ \ ")
+                    print("| | | | | |  / ____ \  | (_| | | | | | | | | | | | | |")
+                    print("|_| |_| |_| /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|")
+                    print("                                                      ")
+					print("^2[mAdmin]^7 Up to date.")
+				else
+                    print("                            _               _         ")
+                    print("                /\         | |             (_)        ")
+                    print(" _ __ ___      /  \      __| |  _ __ ___    _   _ __  ")
+                    print("| '_ ` _ \    / /\ \    / _` | | '_ ` _ \  | | | '_ \ ")
+                    print("| | | | | |  / ____ \  | (_| | | | | | | | | | | | | |")
+                    print("|_| |_| |_| /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|")
+                    print("                                                      ")
+					print(("^3[mAdmin]^7 The script isn't up to date! Please update to version %s."):format(data.tag_name))
+				end
+			else
+                print("                            _               _         ")
+                print("                /\         | |             (_)        ")
+                print(" _ __ ___      /  \      __| |  _ __ ___    _   _ __  ")
+                print("| '_ ` _ \    / /\ \    / _` | | '_ ` _ \  | | | '_ \ ")
+                print("| | | | | |  / ____ \  | (_| | | | | | | | | | | | | |")
+                print("|_| |_| |_| /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|")
+                print("                                                      ")
+				print(("^3[mAdmin]^7 Couldn't check version! Error code %s."):format(errorCode))
+				print(LatestVersionFeed)
+			end
+		end,
+		'GET',
+		'',
+		{
+			['User-Agent'] = ("mAdmin v%s"):format(Version)
+		}
+	)
+end
+
+--================================--
+--         Début du script        --
+--================================--
 
 local staff = {}
 local allreport = {}
 local reportcount = {}
 
--- Commande Report
+--================================--
+--         Commande Report        --
+--================================--
+
 RegisterCommand('report', function(source, args, user)
     local xPlayerSource = ESX.GetPlayerFromId(source)
     local isadded = false
@@ -265,16 +340,4 @@ AddEventHandler("ARKALIS:Message", function(id, type)
     else
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
-end)
-
-CreateThread(function()
-    Citizen.Wait(1250)
-    print("                            _               _         ")
-    print("                /\         | |             (_)        ")
-    print(" _ __ ___      /  \      __| |  _ __ ___    _   _ __  ")
-    print("| '_ ` _ \    / /\ \    / _` | | '_ ` _ \  | | | '_ \ ")
-    print("| | | | | |  / ____ \  | (_| | | | | | | | | | | | | |")
-    print("|_| |_| |_| /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|")
-    print("                                                      ")
-    print("[mAdmin] - Script loaded successfully developed by Matdbx10")
 end)
