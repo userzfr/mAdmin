@@ -892,8 +892,8 @@ Citizen.CreateThread(function()
             end)
         end 
 
-        RegisterNetEvent("Zortix:SendsEvents")
-        AddEventHandler("Zortix:SendsEvents", function(sEventsInfos, zone, time)
+        RegisterNetEvent("mAdmin:SendsEvents")
+        AddEventHandler("mAdmin:SendsEvents", function(sEventsInfos, zone, time)
             EventStop = false
         	SetAudioFlag("LoadMPData", 1)
         	PlaySoundFrontend(-1, "Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset", 1)
@@ -967,13 +967,13 @@ Citizen.CreateThread(function()
         					ArgentRecup = ArgentRecup + 1
         					local nombre = math.random(120, 200)
         					ESX.ShowNotification("Vous avez ramasser : ~g~+"..nombre.."$")
-        					TriggerServerEvent("zAdmin:GetMoneyInsEvents", nombre)
+        					TriggerServerEvent("mAdmin:GetMoneyInsEvents", nombre)
         					RemoveEventsObj(obj)
         					if EventStop then return end
         					if EventStop then break end
         				end
         				if ArgentRecup >= 10 then
-        					TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        					TriggerServerEvent("mAdmin:TakeRecInsEvents")
         					StopSound(sound)
         					sended = true
         					for k,v in pairs(ObjTable) do
@@ -987,7 +987,7 @@ Citizen.CreateThread(function()
         			end
         			if not sended then
         				StopSound(sound)
-        				TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        				TriggerServerEvent("mAdmin:TakeRecInsEvents")
         				sended = true
         			end
         			StopSound(sound)
@@ -1050,12 +1050,12 @@ Citizen.CreateThread(function()
         					DrogueRecup = DrogueRecup + 1
         					local nombre = math.random(1, 10)
         					local item = sEventsInfos.item[math.random(1,#sEventsInfos.item)]
-        					TriggerServerEvent("zAdmin:GetItemInsEvents", item, nombre)
+        					TriggerServerEvent("mAdmin:GetItemInsEvents", item, nombre)
         					if EventStop then return end
         					if EventStop then break end
         				end
         				if DrogueRecup >= 10 then
-        					TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        					TriggerServerEvent("mAdmin:TakeRecInsEvents")
         					sended = true
         					break
         				end
@@ -1064,7 +1064,7 @@ Citizen.CreateThread(function()
         				end
         			end
         			if not sended then
-        				TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        				TriggerServerEvent("mAdmin:TakeRecInsEvents")
         				sended = true
         			end
                     ESX.ShowNotification("Evènement Illégal - Information(s)\nCargaison récupérée !")
@@ -1121,12 +1121,12 @@ Citizen.CreateThread(function()
         					RemoveEventsObj(ObjNetId)
         					CaisseRecup = CaisseRecup + 1
         					local item = sEventsInfos.item[math.random(1,#sEventsInfos.item)]
-        					TriggerServerEvent("zAdmin:GetItemInsEvents", item, 1)
+        					TriggerServerEvent("mAdmin:GetItemInsEvents", item, 1)
         					if EventStop then return end
         					if EventStop then break end
         				end
         				if CaisseRecup >= 1 then
-        					TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        					TriggerServerEvent("mAdmin:TakeRecInsEvents")
         					sended = true
         					break
         				end
@@ -1135,7 +1135,7 @@ Citizen.CreateThread(function()
         				end
         			end
         			if not sended then
-        				TriggerServerEvent("zAdmin:TakeRecInsEvents")
+        				TriggerServerEvent("mAdmin:TakeRecInsEvents")
         				sended = true
         			end
                     ESX.ShowNotification("Evènement - Information(s)\nCargaison récupérée !")
@@ -1146,8 +1146,8 @@ Citizen.CreateThread(function()
         	end)
         end
 
-        RegisterNetEvent("zAdmin:StopsEvents")
-        AddEventHandler("zAdmin:StopsEvents", function(delete)
+        RegisterNetEvent("mAdmin:StopsEvents")
+        AddEventHandler("mAdmin:StopsEvents", function(delete)
             PlaySoundFrontend(-1, "Criminal_Damage_High_Value", "Criminal_Damage_High_Value", 1)
             PlaySoundFrontend(-1, "Criminal_Damage_High_Value", "Criminal_Damage_High_Value", 1)
             PlaySoundFrontend(-1, "Criminal_Damage_High_Value", "Criminal_Damage_High_Value", 1)
