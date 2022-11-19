@@ -339,18 +339,18 @@ AddEventHandler("mAdmin:StartsEvents", function(type, time, number)
 	Citizen.Wait(time*60*1000)
 	TriggerClientEvent("mAdmin:DeleteEvent", -1)
 	if eventStarted then
-		TriggerClientEvent("zAdmin:StopsEvents", -1)
+		TriggerClientEvent("mAdmin:StopsEvents", -1)
 	end
 end)
 
-RegisterNetEvent("zAdmin:GetMoneyInsEvents")
-AddEventHandler("zAdmin:GetMoneyInsEvents", function(nombre)
+RegisterNetEvent("mAdmin:GetMoneyInsEvents")
+AddEventHandler("mAdmin:GetMoneyInsEvents", function(nombre)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	xPlayer.addMoney(nombre)
 end)
 
-RegisterNetEvent("zAdmin:TakeRecInsEvents")
-AddEventHandler("zAdmin:TakeRecInsEvents", function()
-	TriggerClientEvent("zAdmin:StopsEvents", -1)
+RegisterNetEvent("mAdmin:TakeRecInsEvents")
+AddEventHandler("mAdmin:TakeRecInsEvents", function()
+	TriggerClientEvent("mAdmin:StopsEvents", -1)
 	eventStarted = false
 end)
