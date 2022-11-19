@@ -31,7 +31,7 @@ function checkVersion()
                     print([[| | | | | |  / ____ \  | (_| | | | | | | | | | | | | |]])
                     print([[|_| |_| |_| /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|]])
                     print([[                                                      ]])
-					print(^3[mAdmin]^7 Couldn't check version - no data returned!")
+					print("^3[mAdmin]^7 Couldn't check version - no data returned!")
 					return
 				end
 				if data.tag_name == "v" .. Version then
