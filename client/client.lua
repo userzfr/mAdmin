@@ -743,8 +743,6 @@ Citizen.CreateThread(function()
         if (mAdmin.SelfPlayer.isStaffEnabled) then
             RageUI.IsVisible(utilsmenu, function()
 
-                RageUI.Separator("~r~↓ ~s~Developpement ~r~↓")
-
                 RageUI.Checkbox("→ Affiché les Coordonnées", "Affiche les ~o~coordonnées", mAdmin.SelfPlayer.ShowCoords, { }, {
                     onChecked = function()
                         TriggerServerEvent("mAdmin:SendLogs", "Affiche les coordonnées")
@@ -771,9 +769,9 @@ Citizen.CreateThread(function()
                     end
                 })
 
-                RageUI.Separator("~r~↓ ~s~Hautes Modérations ~r~↓")
+                RageUI.Line(52, 235, 235, 200)
 
-                RageUI.Button("→ Kick un joueur avec ID", nil, {RightLabel = "~r~→→"}, true, {
+                RageUI.Button("→ Kick un joueur avec ID", nil, {RightLabel = "~b~→→"}, true, {
                     onSelected = function()
                         local idkick = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez l'ID du joueur à kick", '', 30)
                         local raisonkickid = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez la raison du kick du joueur", '', 30)
@@ -781,7 +779,7 @@ Citizen.CreateThread(function()
                         ExecuteCommand("kick "..idkick.." "..raisonkickid.."")
                     end
                 })
-                RageUI.Button("→ Bannir un joueur avec ID", nil, {RightLabel = "~r~→→"}, true, {
+                RageUI.Button("→ Bannir un joueur avec ID", nil, {RightLabel = "~b~→→"}, true, {
                    
                         onSelected = function()
                             local idban = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez l'ID du joueur à bannir", '', 999)
@@ -792,7 +790,7 @@ Citizen.CreateThread(function()
                     end    
                 })
 
-                RageUI.Button("→ Débannir un joueur", nil, {RightLabel = "~r~→→"}, true, {
+                RageUI.Button("→ Débannir un joueur", nil, {RightLabel = "~b~→→"}, true, {
                     onSelected = function()
                         local debanbb = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez le nom steam du joueur à débannir", '', 30)
                         ExecuteCommand("sqlunban "..debanbb.." ")
