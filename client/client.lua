@@ -644,7 +644,7 @@ Citizen.CreateThread(function()
 
                 RageUI.Line(52, 235, 235, 200)
 
-                RageUI.Button('Practics', nil, { RightLabel = "~b~→→" }, true, {
+                RageUI.Button('Téléportation', nil, { RightLabel = "~b~→→" }, true, {
                     onSelected = function()
                     end
                 }, tpmenu)
