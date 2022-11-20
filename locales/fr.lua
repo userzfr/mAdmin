@@ -1,0 +1,3 @@
+Locales['fr'] = {
+	['server'] = 'serveur',
+}

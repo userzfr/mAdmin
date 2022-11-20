@@ -1502,7 +1502,9 @@ Citizen.CreateThread(function()
                         { Name = "1 Semaine", Value = '7' },
                         { Name = "1 Mois", Value = '30' },
                         { Name = "3 Mois", Value = '90' },
+                        { Name = "6 Mois", Value = '182' },
                         { Name = "1 Année", Value = '365' },
+                        { Name = "2 Année", Value = '730' },
                         { Name = "Permanent", Value = '0' },
                     }, GroupIndex, "Pour mettre le temps de ban ! ~g~(Entrée pour valider)\n", {}, true, {
                         onListChange = function(Index, Item)
