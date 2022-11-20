@@ -1,7 +1,7 @@
 Config = {}
 
 Config = {
-    --Locale = 'fr',
+    --Locale = 'fr', -- Language available: fr, soon
 
     webhook = { -- LOGS DISCORD
         Staffmodeon = "DISCORD_WEBHOOK",      -- MODE STAFF ON
