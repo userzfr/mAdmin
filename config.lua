@@ -1,6 +1,8 @@
 Config = {}
 
 Config = {
+    --Locale = 'fr',
+
     webhook = { -- LOGS DISCORD
         Staffmodeon = "DISCORD_WEBHOOK",      -- MODE STAFF ON
         Staffmodeoff = "DISCORD_WEBHOOK",     -- MODE STAFF OFF
