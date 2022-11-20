@@ -13,6 +13,8 @@
     <a href="/docs/readme_vn.md">Tiếng Việt</a>
     ·
     <a href="/docs/readme_ru.md">Русский</a>
+    ·
+    <a href="/docs/readme_ro.md">Română</a>
   </p>
 </p>
 
