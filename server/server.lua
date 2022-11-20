@@ -10,40 +10,26 @@ end)
 --         VERSION CHECK          --
 --================================--
 
---Citizen.CreateThread(
---	checkVersion
---)
---
---Version = "1.9.0"
---LatestVersionFeed = "https://api.github.com/repos/Matdbx10/mAdmin/releases/latest"
---
---function checkVersion()
---	PerformHttpRequest(
---		LatestVersionFeed,
---		function(errorCode, data, headers)
---			if tonumber(errorCode) == 200 then
---				data = json.decode(data)
---				if not data then
---					print("^3[mAdmin]^7 Couldn't check version - no data returned!")
---					return
---				end
---				if data.tag_name == "v" .. Version then
---					print("^2[mAdmin]^7 Up to date.")
---				else
---					print(("^3[mAdmin]^7 The script isn't up to date! Please update to version %s."):format(data.tag_name))
---				end
---			else
---				print(("^3[mAdmin]^7 Couldn't check version! Error code %s."):format(errorCode))
---				print(LatestVersionFeed)
---			end
---		end,
---		'GET',
---		'',
---		{
---			['User-Agent'] = ("mAdmin v%s"):format(Version)
---		}
---	)
---end
+Citizen.CreateThread( function()
+    updatePath = "/Matdbx10/mAdmin" -- your git user/repo path
+    resourceName = "mAdmin" -- the resource name
+    
+    function checkVersion(err,responseText, headers)
+        curVersion = LoadResourceFile(GetCurrentResourceName(), "version") -- make sure the "version" file actually exists in your resource root!
+    
+        if curVersion ~= responseText and tonumber(curVersion) < tonumber(responseText) then
+            print("\n###############################")
+            print("\n"..resourceName.." is outdated, should be:\n"..responseText.."is:\n"..curVersion.."\nplease update it from https://github.com"..updatePath.."")
+            print("\n###############################")
+        elseif tonumber(curVersion) > tonumber(responseText) then
+            print("You somehow skipped a few versions of "..resourceName.." or the git went offline, if it's still online i advise you to update ( or downgrade? )")
+        else
+            print("\n"..resourceName.." is up to date, have fun!")
+        end
+    end
+    
+    PerformHttpRequest("https://raw.githubusercontent.com"..updatePath.."/master/version", checkVersion, "GET")
+    end)
 
 --================================--
 --         Début du script        --
@@ -98,13 +84,19 @@ RegisterCommand('report', function(source, args, user)
     end
 end)
 
--- Prise des rôle user
+--================================--
+--         Prise rôle IG          --
+--================================--
 
 ESX.RegisterServerCallback('mAdmin:getUsergroup', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local group = xPlayer.getGroup()
 	cb(group)
 end)
+
+--================================--
+--         Envoyer le logs        --
+--================================--
 
 RegisterServerEvent("mAdmin:SendLogs")
 AddEventHandler("mAdmin:SendLogs", function(action)
@@ -115,6 +107,10 @@ AddEventHandler("mAdmin:SendLogs", function(action)
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
 end)
+
+--================================--
+--     Prise/Leave mode staff     --
+--================================--
 
 RegisterServerEvent("mAdmin:onStaffJoin")
 AddEventHandler("mAdmin:onStaffJoin", function()
@@ -152,6 +148,10 @@ AddEventHandler("mAdmin:onStaffLeave", function()
         TriggerEvent("BanSql:ICheatServer", source, "CHEAT")
     end
 end)
+
+--================================--
+--           Intéraction          --
+--================================--
 
 RegisterServerEvent("mAdmin:teleport")
 AddEventHandler("mAdmin:teleport", function(id)
@@ -271,6 +271,10 @@ end
 
     cb(playersadmin)
 end)
+
+--================================--
+--             Touche             --
+--================================--
 
 RegisterServerEvent("mAdmin:noclipkey")
 AddEventHandler("mAdmin:noclipkey", function()

@@ -450,9 +450,7 @@ local ped = {
     { Name = "Zombie", Value = 'u_m_y_zombie_01' },
     { Name = "The Rock", Value = 'u_m_y_babyd' },
 }
-local pedIndex = 1
-local ValuePed = 'u_m_m_streetart_01'
-local NamePed = 'Pogo 1'
+
 
 RegisterNetEvent("mAdmin:noclipkey")
 AddEventHandler("mAdmin:noclipkey", function()
@@ -514,18 +512,7 @@ Citizen.CreateThread(function()
             RageUI.Separator("Report actifs : ~b~" ..#mAdmin.GetReport)
 
             RageUI.Line(52, 235, 235, 200)
-
-           --RageUI.List('choisissez votre Ped', ped, pedIndex, nil, {}, true, {
-           --    
-           --    onListChange = function(Index, Item)
-           --        pedIndex = Index;
-           --        ValuePed = Item.Value
-           --        NamePed = Item.Name
-           --    end,
-           --})
             end
-
-            --RageUI.Separator('Ped : ~b~'.. NamePed)
 
             RageUI.Checkbox("Prendre son service", "Le mode staff ne peut être utilisé que pour modérer le serveur, tout abus sera sévèrement puni, l'intégralité de vos actions sera enregistrée.", mAdmin.SelfPlayer.isStaffEnabled, { }, {
                 onChecked = function()
