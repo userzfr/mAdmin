@@ -10,7 +10,23 @@ end)
 --         VERSION CHECK          --
 --================================--
 
--- En DEV . . .
+CreateThread( function() --[[ Version Checker ]]
+	local version = GetResourceMetadata(GetCurrentResourceName(), 'version')
+	SetConvarServerInfo("JD_logs", "V"..version)
+	PerformHttpRequest('https://raw.githubusercontent.com/Matdbx10/mAdmin/master/json/version.json', function(code, res, headers)
+		if code == 200 then
+			local rv = json.decode(res)
+			if tonumber(table.concat(mysplit(rv.version, "."))) > tonumber(table.concat(mysplit(version, "."))) then
+					print(([[^1-------------------------------------------------------
+					JD_logsV3
+UPDATE: %s AVAILABLE
+CHANGELOG: %s
+-------------------------------------------------------^0]]):format(rv.version, rv.changelog))
+				ServerFunc.CreateLog({ EmbedMessage = "**JD_logsV3 Update V"..rv.version.."**\nDownload the latest update of JD_logsV3 here:\nhttps://github.com/Matdbx10/mAdmin/\n\n**Changelog:**\n"..rv.changelog..'\n\n**How to update?**\n1. Download the latest version.\n2. Replace all files with your old once **EXCEPT THE CONFIG** folder.\n3. run the `!jdlogs setup` command again and you\'re done.', channel = 'system'})
+			end
+		end
+	end, 'GET')
+end)
 
 --================================--
 --         Début du script        --
