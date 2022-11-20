@@ -775,10 +775,7 @@ Citizen.CreateThread(function()
 
                 RageUI.Button("→ Kick un joueur avec ID", nil, {RightLabel = "~r~→→"}, true, {
                     onSelected = function()
-                        --ESX.ShowNotification("Entrez l'ID du joueur à kick")
-                        --ESX.ShowHelpNotification("Entrez le nom steam du joueur à débannir")
                         local idkick = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez l'ID du joueur à kick", '', 30)
-                        --ESX.ShowNotification("Entrez la raison du kick du joueur avec comme ID : " ..idkick.."")
                         local raisonkickid = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez la raison du kick du joueur", '', 30)
                         ESX.ShowNotification("~r~Sanction - Kick\n~s~Joueur (ID) : " ..idkick.."\nRaison : " ..raisonkickid.."")
                         ExecuteCommand("kick "..idkick.." "..raisonkickid.."")
@@ -787,12 +784,8 @@ Citizen.CreateThread(function()
                 RageUI.Button("→ Bannir un joueur avec ID", nil, {RightLabel = "~r~→→"}, true, {
                    
                         onSelected = function()
-                            --ESX.ShowNotification("Entrez l'ID du joueur à bannir")
-                            --ESX.ShowHelpNotification("Entrez le nom steam du joueur à débannir")
                             local idban = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez l'ID du joueur à bannir", '', 999)
-                            --ESX.ShowNotification("Entrez la durée du bannissement en jour pour le joueur avec l'id : " ..idban.."")
                             local idbanday = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez la durée du bannissement en jour", '', 999)
-                            --ESX.ShowNotification("Vous allez bannir le joueur avec l'id : " ..idban.." pendant "..idbanday.." jours. Maintenant entrez la raison")
                             local raisonbanid = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez la raison", '', 100)
                             ESX.ShowNotification("~r~Sanction - Bannissement\n~s~Joueur [ID] : " ..idban.."\nRaison : " ..raisonbanid.."\nDurée : " ..raisonbanid.."")
                             ExecuteCommand("sqlban "..idban.." " ..idbanday.." "..raisonbanid.."")
@@ -801,9 +794,7 @@ Citizen.CreateThread(function()
 
                 RageUI.Button("→ Débannir un joueur", nil, {RightLabel = "~r~→→"}, true, {
                     onSelected = function()
-                        --ESX.ShowNotification("Entrez le nom steam du joueur à débannir")
-                        --ESX.ShowHelpNotification("Entrez le nom steam du joueur à débannir")
-                        local debanbb = KeyboardInput("", "Entrez le nom steam du joueur à débannir", '', 30)
+                        local debanbb = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez le nom steam du joueur à débannir", '', 30)
                         ExecuteCommand("sqlunban "..debanbb.." ")
                     end
                 })
