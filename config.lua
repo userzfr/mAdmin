@@ -3,7 +3,7 @@ Config = {}
 Config = {
     --Locale = 'fr', -- Language available: fr, soon
 
-    --Color = 'r', -- Language available: b (blue), r (red), g (green)
+    Color = 'r', -- Language available: b (blue), r (red), g (green)
     
     webhook = { -- LOGS DISCORD
         Staffmodeon = "DISCORD_WEBHOOK",      -- MODE STAFF ON
