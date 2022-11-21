@@ -1,3 +1,3 @@
-Locales['fr'] = {
-	['server'] = 'serveur',
-}
+--Locales['fr'] = {
+--	['server'] = 'serveur',
+--}
