@@ -779,6 +779,7 @@ Citizen.CreateThread(function()
                         ExecuteCommand("kick "..idkick.." "..raisonkickid.."")
                     end
                 })
+
                 RageUI.Button("→ Bannir un joueur avec ID", 'Pour bannir un joueur avec un ID', {RightLabel = "~b~→→"}, true, {
                    
                         onSelected = function()
@@ -794,6 +795,30 @@ Citizen.CreateThread(function()
                     onSelected = function()
                         local debanbb = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez le nom steam du joueur à débannir", '', 30)
                         ExecuteCommand("sqlunban "..debanbb.." ")
+                    end
+                })
+
+                RageUI.Line(52, 235, 235, 200)
+
+                RageUI.Checkbox("Nage rapide", nil, nil, { }, {
+                    onChecked = function()
+                    TriggerServerEvent("mAdmin:SendLogs", "Active Nage rapide")
+                    SetRunSprintMultiplierForPlayer(PlayerId(), 1.49)
+                    end,
+                    onUnChecked = function()
+                        TriggerServerEvent("mAdmin:SendLogs", "Désactive Nage rapide")
+                        SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
+                    end
+                })
+
+                RageUI.Checkbox("Super Sprint", nil, nil, { }, {
+                    onChecked = function()
+                    TriggerServerEvent("mAdmin:SendLogs", "Active Fast Sprint")
+                    SetRunSprintMultiplierForPlayer(PlayerId(), 1.49)
+                    end,
+                    onUnChecked = function()
+                        TriggerServerEvent("mAdmin:SendLogs", "Désactive Fast Sprint")
+                        SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
                     end
                 })
 
