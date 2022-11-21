@@ -55,7 +55,7 @@ local raisontosend = "Aucune Raison !"
 local GroupItem = {}
 GroupItem.Value = 1
 
-local mainMenu = RageUI.CreateMenu("~w~Administration", "~b~Gestions du serveur", 0);
+local mainMenu = RageUI.CreateMenu("~w~Administration", "~".. Config.Color .."~Gestions du serveur", 0);
 local inventoryMenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Inventaire du joueur", 0)
 inventoryMenu:DisplayGlare(true)
 
@@ -84,7 +84,7 @@ local tpmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Telepor
 tpmenu:DisplayGlare(true)
 
 local eventmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Evènements")
-eventmenu:DisplayGlare(true)isInvisible
+eventmenu:DisplayGlare(true)
 
 local vehiculemenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Vehicule")
 vehiculemenu:DisplayGlare(true)
@@ -411,7 +411,7 @@ function mAdmin.Helper:onStaffMode(status)
         onStaffMode = true
         CreateThread(function()
             while onStaffMode do
-                Visual.Subtitle("Nom : ~b~"..GetPlayerName(PlayerId()).."~s~ | Report actuels : ~b~" .. #mAdmin.GetReport , 999999999999999)
+                Visual.Subtitle("Nom : ~".. Config.Color .."~"..GetPlayerName(PlayerId()).."~s~ | Report actuels : ~".. Config.Color .."~" .. #mAdmin.GetReport , 999999999999999)
                 Citizen.Wait(1000)
             end
         end)
@@ -507,9 +507,9 @@ Citizen.CreateThread(function()
 
         RageUI.IsVisible(mainMenu, function()
 
-            RageUI.Separator("Joueurs : ~b~" .. #mAdmin.Players.. "~s~ | Staff en ligne : ~"Config.Color"~" .. #mAdmin.PlayersStaff .. "")
+            RageUI.Separator("Joueurs : ~".. Config.Color .."~" .. #mAdmin.Players.. "~s~ | Staff en ligne : ~"Config.Color"~" .. #mAdmin.PlayersStaff .. "")
             if onStaffMode == false then
-            RageUI.Separator("Report actifs : ~b~" ..#mAdmin.GetReport)
+            RageUI.Separator("Report actifs : ~".. Config.Color .."~" ..#mAdmin.GetReport)
 
             RageUI.Line(52, 235, 235, 200)
             end
@@ -552,14 +552,14 @@ Citizen.CreateThread(function()
 
                 RageUI.Line(52, 235, 235, 200)
 
-                RageUI.Button('Intéractions Joueurs', nil, { RightLabel = "~b~→→" }, true, {
+                RageUI.Button('Intéractions Joueurs', nil, { RightLabel = "~".. Config.Color .."~→→" }, true, {
                     onSelected = function()
                         selectedMenu:SetSubtitle(string.format('Joueurs en lignes [%s]', #mAdmin.Players))
                         selectedIndex = 1;
                     end
                 }, selectedMenu)
 
-                RageUI.Button('Report en attente', nil, { RightLabel = '~b~'..#mAdmin.GetReport }, true, {
+                RageUI.Button('Report en attente', nil, { RightLabel = '~".. Config.Color .."~'..#mAdmin.GetReport }, true, {
                     onSelected = function()
                     end
                 }, reportmenu)
@@ -644,18 +644,18 @@ Citizen.CreateThread(function()
 
                 RageUI.Line(52, 235, 235, 200)
 
-                RageUI.Button('Téléportation', nil, { RightLabel = "~b~→→" }, true, {
+                RageUI.Button('Téléportation', nil, { RightLabel = "~".. Config.Color .."~→→" }, true, {
                     onSelected = function()
                     end
                 }, tpmenu)
 
-                RageUI.Button('Véhicules', nil, { RightLabel = "~b~→→" }, true, {
+                RageUI.Button('Véhicules', nil, { RightLabel = "~".. Config.Color .."~→→" }, true, {
                     onSelected = function()
                     end
                 }, vehiculemenu)
 
                 if playergroup ~= nil and ( playergroup == '_dev' or playergroup == 'owner' or playergroup == 'superadmin') then
-                    RageUI.Button('System', nil, { RightLabel = "~b~→→" }, true, {
+                    RageUI.Button('System', nil, { RightLabel = "~".. Config.Color .."~→→" }, true, {
                         onSelected = function()
                         end
                     }, utilsmenu)
@@ -763,7 +763,7 @@ Citizen.CreateThread(function()
 
                 RageUI.Line(52, 235, 235, 200)
 
-                RageUI.Button("→ Kick un joueur avec ID", 'Pour kick un joueur avec un ID', {RightLabel = "~b~→→"}, true, {
+                RageUI.Button("→ Kick un joueur avec ID", 'Pour kick un joueur avec un ID', {RightLabel = "~".. Config.Color .."~→→"}, true, {
                     onSelected = function()
                         local idkick = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez l'ID du joueur à kick", '', 30)
                         local raisonkickid = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez la raison du kick du joueur", '', 30)
@@ -772,7 +772,7 @@ Citizen.CreateThread(function()
                     end
                 })
 
-                RageUI.Button("→ Bannir un joueur avec ID", 'Pour bannir un joueur avec un ID', {RightLabel = "~b~→→"}, true, {
+                RageUI.Button("→ Bannir un joueur avec ID", 'Pour bannir un joueur avec un ID', {RightLabel = "~".. Config.Color .."~→→"}, true, {
                    
                         onSelected = function()
                             local idban = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez l'ID du joueur à bannir", '', 999)
@@ -783,7 +783,7 @@ Citizen.CreateThread(function()
                     end    
                 })
 
-                RageUI.Button("→ Débannir un joueur", 'Pour débannir joueur avec un nom steam', {RightLabel = "~b~→→"}, true, {
+                RageUI.Button("→ Débannir un joueur", 'Pour débannir joueur avec un nom steam', {RightLabel = "~".. Config.Color .."~→→"}, true, {
                     onSelected = function()
                         local debanbb = KeyboardInput("mAdmin_BOX_BAN_RAISON", "Entrez le nom steam du joueur à débannir", '', 30)
                         ExecuteCommand("sqlunban "..debanbb.." ")
@@ -826,7 +826,7 @@ Citizen.CreateThread(function()
                     end
                 })
 
-                RageUI.Button("~b~Retourner~s~ le véhicule", nil, {RightLabel = ""}, true, {
+                RageUI.Button("~".. Config.Color .."~Retourner~s~ le véhicule", nil, {RightLabel = ""}, true, {
                     onSelected = function()
                         admin_vehicle_flip()
                     end
@@ -908,11 +908,11 @@ Citizen.CreateThread(function()
 
                 RageUI.Line(52, 235, 235, 200)
 
-                RageUI.Button("Couleurs", nil, { RightLabel = "~b~→→" }, true, {
+                RageUI.Button("Couleurs", nil, { RightLabel = "~".. Config.Color .."~→→" }, true, {
                     onSelected = function()
                 end}, customCols) 
         
-                RageUI.Button("Neon", nil, { RightLabel = "~b~→→" }, true, {
+                RageUI.Button("Neon", nil, { RightLabel = "~".. Config.Color .."~→→" }, true, {
                     onSelected = function()
                 end}, customNeon)  
 
@@ -920,7 +920,7 @@ Citizen.CreateThread(function()
         end
 
         RageUI.IsVisible(customCols, function()
-            RageUI.Separator("~b~↓~s~ Chrome ~b~↓")
+            RageUI.Separator("~".. Config.Color .."~↓~s~ Chrome ~".. Config.Color .."~↓")
                 RageUI.Button("Chromé", nil, {}, true, {
                     onSelected = function()
                         local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
@@ -941,7 +941,7 @@ Citizen.CreateThread(function()
                         local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
                         SetVehicleColours(vehicle, 90, 90)
                 end})
-                RageUI.Separator("~b~↓~s~ Classiques ~b~↓")
+                RageUI.Separator("~".. Config.Color .."~↓~s~ Classiques ~".. Config.Color .."~↓")
                 Listing.ColorMetalList = {
                     { Name = "Black Steel", Value1 = 2, Value2 = 2 },
                     { Name = "Dark Steel", Value1 = 3, Value2 = 3 }, 
@@ -980,7 +980,7 @@ Citizen.CreateThread(function()
                         local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
                         SetVehicleColours(vehicle, mls.Value1, mls.Value2)
                 end})  
-                RageUI.Separator("~b~↓~s~ Mates ~b~↓")
+                RageUI.Separator("~".. Config.Color .."~↓~s~ Mates ~".. Config.Color .."~↓")
                 Listing.ColorList = {
                     { Name = "Black", Value1 = 12, Value2 = 12 },
                     { Name = "Gray", Value1 = 13, Value2 = 13 },
@@ -1053,7 +1053,7 @@ Citizen.CreateThread(function()
                                 ["owner"] = "Gérant Serveur",
                                 ["_dev"] = "Fondateur",
                             }                 
-                            RageUI.Button(string.format('[%s] %s [%s]', v.source, v.name, gamertage[v.group]), 'Job : ~b~'..v.jobs..'~s~ | Gourp : ~b~'..v.group..'', {}, true, {
+                            RageUI.Button(string.format('[%s] %s [%s]', v.source, v.name, gamertage[v.group]), 'Job : ~".. Config.Color .."~'..v.jobs..'~s~ | Gourp : ~".. Config.Color .."~'..v.group..'', {}, true, {
                                 onSelected = function()
                                     playerActionMenu:SetSubtitle(string.format('[%s] %s', i, v.name))
                                     mAdmin.SelectedPlayer = v;
@@ -1090,7 +1090,7 @@ Citizen.CreateThread(function()
 
                     for i, v in pairs(mAdmin.Players) do
                         if v.source == idtosanctionbaby then
-                            RageUI.Separator("~b~↓~s~ INFORMATION ~b~↓")
+                            RageUI.Separator("~".. Config.Color .."~↓~s~ INFORMATION ~".. Config.Color .."~↓")
                             RageUI.Button('ID : ' .. idtosanctionbaby, nil, {}, true, {
                                 onSelected = function()
                                 end
@@ -1107,7 +1107,7 @@ Citizen.CreateThread(function()
                         end
                     end
 
-                    RageUI.Separator("↓ ~s~SANCTION ~b~↓")
+                    RageUI.Separator("↓ ~s~SANCTION ~".. Config.Color .."~↓")
                     RageUI.List('Temps de ban', {
                         { Name = "1 Jour", Value = '1' },
                         { Name = "2 Jours", Value = '2' },
@@ -1125,7 +1125,7 @@ Citizen.CreateThread(function()
                             GroupIndex = Index;
                         end,
                     })
-                    RageUI.Button('Raison du ban', nil, { RightLabel = '~b~'..raisontosend }, true, {
+                    RageUI.Button('Raison du ban', nil, { RightLabel = '~".. Config.Color .."~'..raisontosend }, true, {
                         onSelected = function()
                             local Raison = KeyboardInput('mAdmin_BOX_BAN_RAISON', "Raison du ban", '', 50)
                             raisontosend = Raison
@@ -1142,7 +1142,7 @@ Citizen.CreateThread(function()
                 if (selectedIndex == 4) then
                     for i, v in pairs(mAdmin.Players) do
                         if v.source == idtosanctionbaby then
-                            RageUI.Separator("~b~↓~s~ INFORMATION ~b~↓")
+                            RageUI.Separator("~".. Config.Color .."~↓~s~ INFORMATION ~".. Config.Color .."~↓")
                             RageUI.Button('ID : ' .. idtosanctionbaby, nil, {}, true, {
                                 onSelected = function()
                                 end
@@ -1158,8 +1158,8 @@ Citizen.CreateThread(function()
                             })
                         end
                     end
-                    RageUI.Separator("~b~↓~s~ SANCTION ~b~↓")
-                    RageUI.Button('Raison du kick', nil, { RightLabel = '~b~'..raisontosend }, true, {
+                    RageUI.Separator("~".. Config.Color .."~↓~s~ SANCTION ~".. Config.Color .."~↓")
+                    RageUI.Button('Raison du kick', nil, { RightLabel = '~".. Config.Color .."~'..raisontosend }, true, {
                         onSelected = function()
                             local Raison = KeyboardInput('mAdmin_BOX_BAN_RAISON', "Raison du kick", '', 50)
                             raisontosend = Raison
@@ -1175,15 +1175,15 @@ Citizen.CreateThread(function()
                 if (selectedIndex == 6) then
                     for i, v in pairs(mAdmin.Players) do
                         if v.source == idtoreport then
-                            RageUI.Button('Nom : ~b~' .. v.name, nil, {}, true, {
+                            RageUI.Button('Nom : ~".. Config.Color .."~' .. v.name, nil, {}, true, {
                                 onSelected = function()
                                 end
                             })
-                            RageUI.Button('ID : ~b~' .. idtoreport, nil, {}, true, {
+                            RageUI.Button('ID : ~".. Config.Color .."~' .. idtoreport, nil, {}, true, {
                                 onSelected = function()
                                 end
                             })
-                            RageUI.Button('Jobs : ~b~' .. v.jobs, nil, {}, true, {
+                            RageUI.Button('Jobs : ~".. Config.Color .."~' .. v.jobs, nil, {}, true, {
                                 onSelected = function()
                                 end
                             })
@@ -1302,14 +1302,14 @@ Citizen.CreateThread(function()
                 RageUI.Button("Clear l'inventaire du Joueur", nil, {RightLabel = nil}, true, {
                     onSelected = function()
                         ExecuteCommand("clearinventory "..mAdmin.SelectedPlayer.source)
-                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les items de ~b~".. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 																
+                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les items de ~".. Config.Color .."~".. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 																
                     end
                 })
 
                 RageUI.Button("Clear les Armes du Joueur", nil, {RightLabel = nil}, true, {
                     onSelected = function()
                         ExecuteCommand("clearloadout "..mAdmin.SelectedPlayer.source)
-                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les armes de ~b~".. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 								
+                    ESX.ShowAdvancedNotification("Administration", "~r~Informations", "Vous venez de WIPE les armes de ~".. Config.Color .."~".. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)) .."~s~ !", "CHAR_SUNLITE", 1) 								
                     end
                 })
 
