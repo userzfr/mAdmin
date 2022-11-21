@@ -507,7 +507,7 @@ Citizen.CreateThread(function()
 
         RageUI.IsVisible(mainMenu, function()
 
-            RageUI.Separator("Joueurs : ~b~" .. #mAdmin.Players.. "~s~ | Staff en ligne : ~b~" .. #mAdmin.PlayersStaff .. "")
+            RageUI.Separator("Joueurs : ~b~" .. #mAdmin.Players.. "~s~ | Staff en ligne : ~"Config.Color"~" .. #mAdmin.PlayersStaff .. "")
             if onStaffMode == false then
             RageUI.Separator("Report actifs : ~b~" ..#mAdmin.GetReport)
 
