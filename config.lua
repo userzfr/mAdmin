@@ -12,6 +12,7 @@ Config = {
         teleportTo = "DISCORD_WEBHOOK",         -- GOTO LOGS
         revive = "DISCORD_WEBHOOK",        -- REVIVE LOGS
         kick = "DISCORD_WEBHOOK",        -- KICK/BAN LOGS
+        jail = "DISCORD_WEBHOOK",        -- KICK/BAN LOGS
         SendLogs = "DISCORD_WEBHOOK",        -- GENERAL LOGS
         report = "DISCORD_WEBHOOK"        -- REPORT LOGS
     },
@@ -52,3 +53,6 @@ Config = {
         MenuReport = 344, --F11
     }
 }
+
+Config.JailBlip     = {x = 256.83, y = -784.37, z = 30.45}  -- Coordonnées de la UNJAIL
+Config.JailLocation = {x = 1641.64, y = 2571.08, z = 45.50} -- Coordonnées de la JAIL 
