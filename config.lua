@@ -10,7 +10,6 @@ Config = {
         teleportTo = "DISCORD_WEBHOOK",         -- GOTO LOGS
         revive = "DISCORD_WEBHOOK",        -- REVIVE LOGS
         kick = "DISCORD_WEBHOOK",        -- KICK/BAN LOGS
-        jail = "DISCORD_WEBHOOK",        -- KICK/BAN LOGS
         SendLogs = "DISCORD_WEBHOOK",        -- GENERAL LOGS
         report = "DISCORD_WEBHOOK"        -- REPORT LOGS
     },
