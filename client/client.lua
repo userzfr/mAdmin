@@ -810,6 +810,7 @@ Citizen.CreateThread(function()
                             local modelName = KeyboardInput('mAdmin_BOX_VEHICLE_NAME', "Veuillez entrer le ~r~nom~s~ du véhicule", '', 50)
                             TriggerEvent('mAdmin:spawnVehicle', modelName)
                             TriggerServerEvent("mAdmin:SendLogs", "Spawn custom vehicle")
+                            SetVehicleNumberPlateText(GetVehiclePedIsIn(GetPlayerPed(-1), false) , "ADMIN")
                         else
                             TriggerEvent('mAdmin:spawnVehicle', Item.Value)
                             TriggerServerEvent("mAdmin:SendLogs", "Spawn vehicle")
@@ -1306,23 +1307,6 @@ Citizen.CreateThread(function()
 
                 RageUI.Line(52, 235, 235, 200)
 
-                RageUI.Button('Jail', nil, {}, true, {
-                    onSelected  = function()
-                        local time = KeyboardInput('mAdmin_BOX_JAIL', "Temps Jail (en minutes)", '', 50)
-                        TriggerServerEvent("mAdmin:SendLogs", "Nouvelle personne en jail !")
-                        TriggerServerEvent('mAdmin:Jail', mAdmin.SelectedPlayer.source, time)
-                    end
-                })
-
-                RageUI.Button('~r~Unjail', "~r~Perm~s~: ~n~admin, superadmin", {}, true, {
-                    onSelected  = function()
-                        TriggerServerEvent("mAdmin:SendLogs", "Personne unjail !")
-                        TriggerServerEvent('mAdmin:UnJail', mAdmin.SelectedPlayer.source)
-                    end
-                })
-
-                RageUI.Line(52, 235, 235, 200)
-
                 RageUI.Button("Clear l'inventaire du Joueur", nil, {RightLabel = nil}, true, {
                     onSelected = function()
                         ExecuteCommand("clearinventory "..mAdmin.SelectedPlayer.source)
@@ -1622,106 +1606,4 @@ Citizen.CreateThread(function()
         end
         Citizen.Wait(1000)
     end
-end)
-
---================================--
---              Jail              --
---================================--
-
-local IsJailed = false
-local unjail = false
-local JailTime = 0
-local fastTimer = 0
-local JailLocation = Config.JailLocation
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-end)
-
-RegisterNetEvent('mAdmin:jail')
-AddEventHandler('mAdmin:jail', function(jailTime)
-	if IsJailed then 
-		return
-	end
-
-	JailTime = jailTime
-	local sourcePed = GetPlayerPed(-1)
-	if DoesEntityExist(sourcePed) then
-		Citizen.CreateThread(function()
-			SetPedArmour(sourcePed, 0)
-			ClearPedBloodDamage(sourcePed)
-			ResetPedVisibleDamage(sourcePed)
-			ResetPedMovementClipset(sourcePed, 0)
-			
-			SetEntityCoords(sourcePed, JailLocation.x, JailLocation.y, JailLocation.z)
-			IsJailed = true
-			unjail = false
-			while JailTime > 0 and not unjail do
-				sourcePed = GetPlayerPed(-1)
-				if IsPedInAnyVehicle(sourcePed, false) then
-					ClearPedTasksImmediately(sourcePed)
-				end
-
-				if JailTime % 120 == 0 then
-					TriggerServerEvent('mAdmin:updateRemaining', JailTime)
-				end
-
-				Citizen.Wait(20000)
-
-				if GetDistanceBetweenCoords(GetEntityCoords(sourcePed), JailLocation.x, JailLocation.y, JailLocation.z) > 10 then
-					SetEntityCoords(sourcePed, JailLocation.x, JailLocation.y, JailLocation.z)
-				end
-				
-				JailTime = JailTime - 20
-			end
- 
-			TriggerServerEvent('mAdmin:unjailTime', -1)
-			SetEntityCoords(sourcePed, Config.JailBlip.x, Config.JailBlip.y, Config.JailBlip.z)
-			IsJailed = false
-
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-				TriggerEvent('skinchanger:loadSkin', skin)
-			end)
-		end)
-	end
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1)
-
-		if JailTime > 0 and IsJailed then
-			if fastTimer < 0 then
-				fastTimer = JailTime
-			end
-			draw2dText(("il reste ~r~%s~s~ secondes jusqu’à ce que vous êtes libéré de ~p~prison"):format(ESX.Round(fastTimer)), { 0.390, 0.955 } )
-			fastTimer = fastTimer - 0.01
-		else
-			Citizen.Wait(1000)
-		end
-	end
-end)
-
-RegisterNetEvent('mAdmin:unjail')
-AddEventHandler('mAdmin:unjail', function(source)
-	unjail = true
-	JailTime = 0
-	fastTimer = 0
-end)
-
-AddEventHandler('playerSpawned', function(spawn)
-	if IsJailed then
-		SetEntityCoords(GetPlayerPed(-1), JailLocation.x, JailLocation.y, JailLocation.z)
-	else
-		TriggerServerEvent('mAdmin:checkJail')
-	end
-end)
-
-Citizen.CreateThread(function()
-	Citizen.Wait(2000) -- wait for mysql-async to be ready, this should be enough time
-	TriggerServerEvent('mAdmin:checkJail')
 end)
