@@ -41,7 +41,7 @@ Config = {
     admin = "Admin",
     superadmin = "Super Admin",
     owner = "owner",
-    _dev = "Dev",
+    _dev = "Fondateur",
     },
 
     Touche = { -- TOUCHE MENU
