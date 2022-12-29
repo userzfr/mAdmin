@@ -68,34 +68,31 @@ mainMenu:AddInstructionButton({
     [2] = "Modifier la vitesse du NoClip",
 });
 
-local selectedMenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "placeholder")
+local selectedMenu = RageUI.CreateSubMenu(mainMenu, "", "placeholder")
 selectedMenu:DisplayGlare(true)
 
-local playerActionMenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "placeholder")
+local playerActionMenu = RageUI.CreateSubMenu(mainMenu, "", "placeholder")
 playerActionMenu:DisplayGlare(true)
 
-local adminmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Admin")
+local adminmenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Admin")
 adminmenu:DisplayGlare(true)
 
-local utilsmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Utils")
+local utilsmenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Utils")
 utilsmenu:DisplayGlare(true)
 
-local tpmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Teleportation")
+local tpmenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Teleportation")
 tpmenu:DisplayGlare(true)
 
-local eventmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Evènements")
-eventmenu:DisplayGlare(true)
-
-local vehiculemenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Vehicule")
+local vehiculemenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Vehicule")
 vehiculemenu:DisplayGlare(true)
 
-local customCols = RageUI.CreateSubMenu(vehiculemenu, "~w~Menu Couleurs", "Couleurs")
+local customCols = RageUI.CreateSubMenu(vehiculemenu, "", "Menu Couleurs")
 customCols:DisplayGlare(true)
 
-local customNeon = RageUI.CreateSubMenu(vehiculemenu, "~w~Menu Neon", "Neon")
+local customNeon = RageUI.CreateSubMenu(vehiculemenu, "", "Menu Neon")
 customNeon:DisplayGlare(true)
 
-local reportmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Liste Report")
+local reportmenu = RageUI.CreateSubMenu(mainMenu, "", "Liste Report")
 reportmenu:DisplayGlare(true)
 
 ---@class mAdmin
