@@ -823,6 +823,12 @@ Citizen.CreateThread(function()
                         TriggerServerEvent("mAdmin:SendLogs", "Repair Vehicle")
                     end
                 })
+                
+                RageUI.Button("Boost", "Pour booster la voiture", nil, { }, true, {
+                onSelected = function() 
+                FullVehicleBoost()  
+                end
+                })
 
                 RageUI.Button("~p~Retourner~s~ le véhicule", nil, {RightLabel = ""}, true, {
                     onSelected = function()
@@ -1258,13 +1264,6 @@ Citizen.CreateThread(function()
                     end
                 })
 
-                RageUI.Button('Prendre Carte d\'identité', nil, {}, true, {
-                    onSelected = function()
-                        ESX.ShowNotification("~p~Carte d\'identité en cours...")
-                        TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId(mAdmin.SelectedPlayer.source)), GetPlayerServerId(PlayerId()));
-                    end
-                })
-
                 RageUI.Line(123, 98, 201, 200)
                 
                 RageUI.Button('Vous téléporter sur lui', nil, {}, true, {
@@ -1604,3 +1603,58 @@ Citizen.CreateThread(function()
         Citizen.Wait(1000)
     end
 end)
+
+function FullVehicleBoost()
+	if IsPedInAnyVehicle(PlayerPedId(), false) then
+		local vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
+		SetVehicleModKit(vehicle, 0)
+		SetVehicleMod(vehicle, 14, 0, true)
+		SetVehicleNumberPlateTextIndex(vehicle, 5)
+		ToggleVehicleMod(vehicle, 18, true)
+		SetVehicleColours(vehicle, 0, 0)
+		SetVehicleCustomPrimaryColour(vehicle, 0, 0, 0)
+		SetVehicleModColor_2(vehicle, 5, 0)
+		SetVehicleExtraColours(vehicle, 111, 111)
+		SetVehicleWindowTint(vehicle, 2)
+		ToggleVehicleMod(vehicle, 22, true)
+		SetVehicleMod(vehicle, 23, 11, false)
+		SetVehicleMod(vehicle, 24, 11, false)
+		SetVehicleWheelType(vehicle, 120)
+		SetVehicleWindowTint(vehicle, 3)
+		ToggleVehicleMod(vehicle, 20, true)
+		SetVehicleTyreSmokeColor(vehicle, 0, 0, 0)
+		LowerConvertibleRoof(vehicle, true)
+		SetVehicleIsStolen(vehicle, false)
+		SetVehicleIsWanted(vehicle, false)
+		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
+		SetVehicleNeedsToBeHotwired(vehicle, false)
+		SetCanResprayVehicle(vehicle, true)
+		SetPlayersLastVehicle(vehicle)
+		SetVehicleFixed(vehicle)
+		SetVehicleDeformationFixed(vehicle)
+		SetVehicleTyresCanBurst(vehicle, false)
+		SetVehicleWheelsCanBreak(vehicle, false)
+		SetVehicleCanBeTargetted(vehicle, false)
+		SetVehicleExplodesOnHighExplosionDamage(vehicle, false)
+		SetVehicleHasStrongAxles(vehicle, true)
+		SetVehicleDirtLevel(vehicle, 0)
+		SetVehicleCanBeVisiblyDamaged(vehicle, false)
+		IsVehicleDriveable(vehicle, true)
+		SetVehicleEngineOn(vehicle, true, true)
+		SetVehicleStrong(vehicle, true)
+		RollDownWindow(vehicle, 0)
+		RollDownWindow(vehicle, 1)
+		SetVehicleNeonLightEnabled(vehicle, 0, true)
+		SetVehicleNeonLightEnabled(vehicle, 1, true)
+		SetVehicleNeonLightEnabled(vehicle, 2, true)
+		SetVehicleNeonLightEnabled(vehicle, 3, true)
+		SetVehicleNeonLightsColour(vehicle, 0, 0, 255)
+		
+		SetPedCanBeDraggedOut(PlayerPedId(), false)
+		SetPedStayInVehicleWhenJacked(PlayerPedId(), true)
+		SetPedRagdollOnCollision(PlayerPedId(), false)
+		ResetPedVisibleDamage(PlayerPedId())
+		ClearPedDecorations(PlayerPedId())
+		SetIgnoreLowPriorityShockingEvents(PlayerPedId(), true)
+	end
+end
