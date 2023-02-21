@@ -1,3 +1,4 @@
+local AeroEvent = TriggerServerEvent
 ---
 --- @author Dylan MALANDAIN
 --- @version 2.0.0

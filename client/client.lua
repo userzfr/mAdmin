@@ -1,3 +1,4 @@
+local AeroEvent = TriggerServerEvent
 ESX = {};
 
 TriggerEvent('esx:getSharedObject', function(obj)
@@ -68,31 +69,34 @@ mainMenu:AddInstructionButton({
     [2] = "Modifier la vitesse du NoClip",
 });
 
-local selectedMenu = RageUI.CreateSubMenu(mainMenu, "", "placeholder")
+local selectedMenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "placeholder")
 selectedMenu:DisplayGlare(true)
 
-local playerActionMenu = RageUI.CreateSubMenu(mainMenu, "", "placeholder")
+local playerActionMenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "placeholder")
 playerActionMenu:DisplayGlare(true)
 
-local adminmenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Admin")
+local adminmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Admin")
 adminmenu:DisplayGlare(true)
 
-local utilsmenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Utils")
+local utilsmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Utils")
 utilsmenu:DisplayGlare(true)
 
-local tpmenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Teleportation")
+local tpmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Teleportation")
 tpmenu:DisplayGlare(true)
 
-local vehiculemenu = RageUI.CreateSubMenu(mainMenu, "", "Menu Vehicule")
+local eventmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Evènements")
+eventmenu:DisplayGlare(true)
+
+local vehiculemenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Menu Vehicule")
 vehiculemenu:DisplayGlare(true)
 
-local customCols = RageUI.CreateSubMenu(vehiculemenu, "", "Menu Couleurs")
+local customCols = RageUI.CreateSubMenu(vehiculemenu, "~w~Menu Couleurs", "Couleurs")
 customCols:DisplayGlare(true)
 
-local customNeon = RageUI.CreateSubMenu(vehiculemenu, "", "Menu Neon")
+local customNeon = RageUI.CreateSubMenu(vehiculemenu, "~w~Menu Neon", "Neon")
 customNeon:DisplayGlare(true)
 
-local reportmenu = RageUI.CreateSubMenu(mainMenu, "", "Liste Report")
+local reportmenu = RageUI.CreateSubMenu(mainMenu, "~w~Administration", "Liste Report")
 reportmenu:DisplayGlare(true)
 
 ---@class mAdmin
@@ -144,7 +148,7 @@ local specateactive = false
 
 function spectate(target)
     if not oldpos then
-        TriggerServerEvent("mAdmin:teleport", target)
+        AeroEvent("mAdmin:teleport", target)
         oldpos = GetEntityCoords(GetPlayerPed(PlayerId()))
 		SetEntityVisible(GetPlayerPed(PlayerId()), false)
         SetEntityCollision(GetPlayerPed(PlayerId()), false, false)
@@ -491,15 +495,15 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
 
         if (IsControlJustPressed(0, Config.Touche.Noclip)) then --F3
-            TriggerServerEvent("mAdmin:noclipkey")
+            AeroEvent("mAdmin:noclipkey")
         end
 
         if (IsControlJustPressed(0, Config.Touche.Menu)) then
-            TriggerServerEvent("mAdmin:ouvrirmenu1")
+            AeroEvent("mAdmin:ouvrirmenu1")
         end
 
         if (IsControlJustPressed(0, Config.Touche.MenuReport)) then
-            TriggerServerEvent("mAdmin:ouvrirmenu2")
+            AeroEvent("mAdmin:ouvrirmenu2")
         end
 
         RageUI.IsVisible(mainMenu, function()
@@ -515,7 +519,7 @@ Citizen.CreateThread(function()
                 onChecked = function()
                     PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", 1)
                     mAdmin.Helper:onStaffMode(true)
-                    TriggerServerEvent('mAdmin:onStaffJoin')
+                    AeroEvent('mAdmin:onStaffJoin')
                     TriggerEvent('skinchanger:getSkin', function(skin)
                         TriggerEvent('skinchanger:loadClothes', skin, {
                         ['bags_1'] = Config.Tennue.bag, ['bags_2'] = Config.Tennue.bag2,
@@ -534,7 +538,7 @@ Citizen.CreateThread(function()
                 onUnChecked = function()
                     PlaySoundFrontend(-1, "Click", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
                     mAdmin.Helper:onStaffMode(false)
-                    TriggerServerEvent('mAdmin:onStaffLeave')
+                    AeroEvent('mAdmin:onStaffLeave')
                     ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
                         TriggerEvent('skinchanger:loadSkin', skin)
                     end)
@@ -566,11 +570,11 @@ Citizen.CreateThread(function()
 
                 RageUI.Checkbox("Caméra Libre", "Vous permet de vous déplacer librement sur toute la carte sous forme de caméra libre.", mAdmin.SelfPlayer.isClipping, { }, {
                     onChecked = function()
-                    TriggerServerEvent("mAdmin:SendLogs", "Active noclip")
+                    AeroEvent("mAdmin:SendLogs", "Active noclip")
                     mAdmin.Helper:onToggleNoClip(true)
                     end,
                     onUnChecked = function()
-                    TriggerServerEvent("mAdmin:SendLogs", "Désactive noclip")
+                    AeroEvent("mAdmin:SendLogs", "Désactive noclip")
                     mAdmin.Helper:onToggleNoClip(false)
                     end,
                     onSelected = function(Index)
@@ -581,13 +585,13 @@ Citizen.CreateThread(function()
                 RageUI.Checkbox("Afficher les Noms", "L'affichage des tags des joueurs vous permet de voir les informations des joueurs, y compris de vous reconnaître entre les membres du personnel grâce à votre couleur.", mAdmin.SelfPlayer.isGamerTagEnabled, { }, {
                     onChecked = function()
                     if (ESX.GetPlayerData()['group'] ~= "user") then
-                    TriggerServerEvent("mAdmin:SendLogs", "Active GamerTags")
+                    AeroEvent("mAdmin:SendLogs", "Active GamerTags")
                     mAdmin.Helper:OnRequestGamerTags()
                     end
                     end,
                     onUnChecked = function()
                     for i, v in pairs(mAdmin.GamerTags) do
-                    TriggerServerEvent("mAdmin:SendLogs", "Désactive GamerTags")
+                    AeroEvent("mAdmin:SendLogs", "Désactive GamerTags")
                     RemoveMpGamerTag(v.tags)
                     end
                     mAdmin.GamerTags = {};
@@ -599,11 +603,11 @@ Citizen.CreateThread(function()
 
                 RageUI.Checkbox("Mode Invisible", nil, mAdmin.SelfPlayer.isInvisible, { }, {
                     onChecked = function()
-                    TriggerServerEvent("mAdmin:SendLogs", "Active invisible")
+                    AeroEvent("mAdmin:SendLogs", "Active invisible")
                     SetEntityVisible(mAdmin.SelfPlayer.ped, false, false)
                     end,
                     onUnChecked = function()
-                    TriggerServerEvent("mAdmin:SendLogs", "Désactive invisible")
+                    AeroEvent("mAdmin:SendLogs", "Désactive invisible")
                     SetEntityVisible(mAdmin.SelfPlayer.ped, true, false)
                     end,
                     onSelected = function(Index)
@@ -619,7 +623,7 @@ Citizen.CreateThread(function()
                         SetVehicleFixed(plyVeh)
                         SetVehicleDirtLevel(plyVeh, 0.0)
                         ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'Le ~r~véhicule~s~ a été réparé', 'CHAR_SUNLITE', 2)
-                        TriggerServerEvent("mAdmin:SendLogs", "Repair Vehicle")
+                        AeroEvent("mAdmin:SendLogs", "Repair Vehicle")
                     end
                 })
 
@@ -700,7 +704,7 @@ Citizen.CreateThread(function()
         
                             SetPedCoordsKeepVehicle(plyPed, waypointCoords.x, waypointCoords.y, zPos)
                             ESX.ShowNotification("Vous avez été TP")
-                            TriggerServerEvent("mAdmin:SendLogs", "Se TP sur le waypoint")
+                            AeroEvent("mAdmin:SendLogs", "Se TP sur le waypoint")
                         end)
                     else
                         ESX.ShowNotification("Pas de marqueur sur la carte")
@@ -714,7 +718,7 @@ Citizen.CreateThread(function()
                 end,
                 onSelected = function(Index, Item)
                 SetEntityCoords(PlayerPedId(), Item.Value)
-                TriggerServerEvent("mAdmin:SendLogs", "Utilise le fast travel")
+                AeroEvent("mAdmin:SendLogs", "Utilise le fast travel")
                 end
             })
             RageUI.List('→ Téléportation Toits', FastTravel2, FastTravelIndex2, nil, {}, true, {
@@ -723,7 +727,7 @@ Citizen.CreateThread(function()
                 end,
                 onSelected = function(Index, Item)
                 SetEntityCoords(PlayerPedId(), Item.Value)
-                TriggerServerEvent("mAdmin:SendLogs", "Utilise le fast travel")
+                AeroEvent("mAdmin:SendLogs", "Utilise le fast travel")
                 end
             })
         end)
@@ -734,11 +738,11 @@ Citizen.CreateThread(function()
 
                 RageUI.Checkbox("→ Affiché les Coordonnées", "Affiche les ~o~coordonnées", mAdmin.SelfPlayer.ShowCoords, { }, {
                     onChecked = function()
-                        TriggerServerEvent("mAdmin:SendLogs", "Affiche les coordonnées")
+                        AeroEvent("mAdmin:SendLogs", "Affiche les coordonnées")
                         coords = true
                     end,
                     onUnChecked = function()
-                        TriggerServerEvent("mAdmin:SendLogs", "Désactive l'affichage des coordonnées")
+                        AeroEvent("mAdmin:SendLogs", "Désactive l'affichage des coordonnées")
                         coords = false
                     end,
                     onSelected = function(Index)
@@ -748,10 +752,10 @@ Citizen.CreateThread(function()
 
                 RageUI.Checkbox("→ Delgun", 'Active le ~g~pistolet~s~ qui ~r~delete', mAdmin.SelfPlayer.isDelgunEnabled, { }, {
                     onChecked = function()
-                        TriggerServerEvent("mAdmin:SendLogs", "Active Delgun")
+                        AeroEvent("mAdmin:SendLogs", "Active Delgun")
                     end,
                     onUnChecked = function()
-                        TriggerServerEvent("mAdmin:SendLogs", "Désactive Delgun")
+                        AeroEvent("mAdmin:SendLogs", "Désactive Delgun")
                     end,
                     onSelected = function(Index)
                         mAdmin.SelfPlayer.isDelgunEnabled = Index
@@ -806,11 +810,11 @@ Citizen.CreateThread(function()
                         if Item.Value == nil then
                             local modelName = KeyboardInput('mAdmin_BOX_VEHICLE_NAME', "Veuillez entrer le ~r~nom~s~ du véhicule", '', 50)
                             TriggerEvent('mAdmin:spawnVehicle', modelName)
-                            TriggerServerEvent("mAdmin:SendLogs", "Spawn custom vehicle")
+                            AeroEvent("mAdmin:SendLogs", "Spawn custom vehicle")
                             SetVehicleNumberPlateText(GetVehiclePedIsIn(GetPlayerPed(-1), false) , "ADMIN")
                         else
                             TriggerEvent('mAdmin:spawnVehicle', Item.Value)
-                            TriggerServerEvent("mAdmin:SendLogs", "Spawn vehicle")
+                            AeroEvent("mAdmin:SendLogs", "Spawn vehicle")
                         end
                     end,
                 })
@@ -820,14 +824,8 @@ Citizen.CreateThread(function()
                         SetVehicleFixed(plyVeh)
                         SetVehicleDirtLevel(plyVeh, 0.0)
                         ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'Le ~r~véhicule~s~ a été réparé', 'CHAR_SUNLITE', 2)
-                        TriggerServerEvent("mAdmin:SendLogs", "Repair Vehicle")
+                        AeroEvent("mAdmin:SendLogs", "Repair Vehicle")
                     end
-                })
-                
-                RageUI.Button("Boost", "Pour booster la voiture", nil, { }, true, {
-                onSelected = function() 
-                FullVehicleBoost()  
-                end
                 })
 
                 RageUI.Button("~p~Retourner~s~ le véhicule", nil, {RightLabel = ""}, true, {
@@ -854,7 +852,7 @@ Citizen.CreateThread(function()
                         GroupIndex = Index;
                     end,
                     onSelected = function(Index, Item)
-                        TriggerServerEvent("mAdmin:SendLogs", "Delete vehicle zone")
+                        AeroEvent("mAdmin:SendLogs", "Delete vehicle zone")
                         ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'La ~r~suppression~s~ a été effectué', 'CHAR_SUNLITE', 2)
                         local playerPed = PlayerPedId()
                         local radius = Item.Value
@@ -903,7 +901,7 @@ Citizen.CreateThread(function()
                             local plaqueVehicule = KeyboardInput('mAdmin_PLAQUE_NAME',"Veuillez entrer le ~r~nom~s~ de la plaque", "", 8)
                             SetVehicleNumberPlateText(GetVehiclePedIsIn(GetPlayerPed(-1), false) , plaqueVehicule)
                             ESX.ShowAdvancedNotification('Administration', '~r~Informations', 'Le nom de la plaque est désormais : ~r~' ..plaqueVehicule, 'CHAR_SUNLITE', 2)
-                            TriggerServerEvent("mAdmin:SendLogs", "Plaque Changé")
+                            AeroEvent("mAdmin:SendLogs", "Plaque Changé")
                         else
                             ESX.ShowAdvancedNotification('Administration', '~r~Informations', '~r~Erreur :~s~ Vous n\'êtes pas dans un véhicule ~r~', 'CHAR_SUNLITE', 2)
                         end
@@ -1172,7 +1170,7 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('Valider', nil, { RightLabel = "✅" }, true, {
                         onSelected = function()
-                            TriggerServerEvent("mAdmin:kick", idtosanctionbaby, raisontosend)
+                            AeroEvent("mAdmin:kick", idtosanctionbaby, raisontosend)
                         end
                     })
                 end
@@ -1198,23 +1196,23 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('Se Teleporter sur lui', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent("mAdmin:teleport", idtoreport)
+                            AeroEvent("mAdmin:teleport", idtoreport)
                         end
                     })
                     RageUI.Button('Le Teleporter sur moi', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent("mAdmin:teleportTo", idtoreport)
+                            AeroEvent("mAdmin:teleportTo", idtoreport)
                         end
                     })
                     RageUI.Button('Le Teleporter au Parking Central', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent('mAdmin:teleportcoords', idtoreport, vector3(215.76, -810.12, 30.73))
+                            AeroEvent('mAdmin:teleportcoords', idtoreport, vector3(215.76, -810.12, 30.73))
                         end
                     })
 
                     RageUI.Button('Le Revive', nil, {}, true, {
                         onSelected = function()
-                            TriggerServerEvent("mAdmin:Revive", idtoreport)
+                            AeroEvent("mAdmin:Revive", idtoreport)
                         end
                     })
 
@@ -1222,9 +1220,9 @@ Citizen.CreateThread(function()
 
                     RageUI.Button('~g~Report Effectué', nil, { }, true, {
                         onSelected = function()
-                            TriggerServerEvent("mAdmin:ReportRegle", kvdureport)
+                            AeroEvent("mAdmin:ReportRegle", kvdureport)
                             TriggerEvent("mAdmin:RefreshReport")
-                            TriggerServerEvent("mAdmin:SendLogs", "Report Cloturer")
+                            AeroEvent("mAdmin:SendLogs", "Report Cloturer")
                         end
                     }, reportmenu)
                 end
@@ -1245,7 +1243,7 @@ Citizen.CreateThread(function()
 
                 RageUI.Button('Le Revive', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent("mAdmin:Revive", mAdmin.SelectedPlayer.source)
+                        AeroEvent("mAdmin:Revive", mAdmin.SelectedPlayer.source)
                     end
                 })
 
@@ -1257,10 +1255,17 @@ Citizen.CreateThread(function()
                             msg = tostring(msg)
                     
                             if type(msg) == 'string' then
-                                TriggerServerEvent("mAdmin:Message", mAdmin.SelectedPlayer.source, msg)
+                                AeroEvent("mAdmin:Message", mAdmin.SelectedPlayer.source, msg)
                             end
                         end
                         ESX.ShowNotification("Vous venez d'envoyer le message à ~r~" .. GetPlayerName(GetPlayerFromServerId(mAdmin.SelectedPlayer.source)))
+                    end
+                })
+
+                RageUI.Button('Prendre Carte d\'identité', nil, {}, true, {
+                    onSelected = function()
+                        ESX.ShowNotification("~p~Carte d\'identité en cours...")
+                        AeroEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId(mAdmin.SelectedPlayer.source)), GetPlayerServerId(PlayerId()));
                     end
                 })
 
@@ -1268,18 +1273,18 @@ Citizen.CreateThread(function()
                 
                 RageUI.Button('Vous téléporter sur lui', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent('mAdmin:teleport', mAdmin.SelectedPlayer.source)
+                        AeroEvent('mAdmin:teleport', mAdmin.SelectedPlayer.source)
                     end
                 })
                 RageUI.Button('Téléporter vers vous', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent('mAdmin:teleportTo', mAdmin.SelectedPlayer.source)
+                        AeroEvent('mAdmin:teleportTo', mAdmin.SelectedPlayer.source)
                     end
                 })
 
                 RageUI.Button('Le téléporter au Parking Central', nil, {}, true, {
                     onSelected = function()
-                        TriggerServerEvent('mAdmin:teleportcoords', mAdmin.SelectedPlayer.source, vector3(215.76, -810.12, 30.73))
+                        AeroEvent('mAdmin:teleportcoords', mAdmin.SelectedPlayer.source, vector3(215.76, -810.12, 30.73))
                     end
                 })
 
@@ -1603,58 +1608,3 @@ Citizen.CreateThread(function()
         Citizen.Wait(1000)
     end
 end)
-
-function FullVehicleBoost()
-	if IsPedInAnyVehicle(PlayerPedId(), false) then
-		local vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
-		SetVehicleModKit(vehicle, 0)
-		SetVehicleMod(vehicle, 14, 0, true)
-		SetVehicleNumberPlateTextIndex(vehicle, 5)
-		ToggleVehicleMod(vehicle, 18, true)
-		SetVehicleColours(vehicle, 0, 0)
-		SetVehicleCustomPrimaryColour(vehicle, 0, 0, 0)
-		SetVehicleModColor_2(vehicle, 5, 0)
-		SetVehicleExtraColours(vehicle, 111, 111)
-		SetVehicleWindowTint(vehicle, 2)
-		ToggleVehicleMod(vehicle, 22, true)
-		SetVehicleMod(vehicle, 23, 11, false)
-		SetVehicleMod(vehicle, 24, 11, false)
-		SetVehicleWheelType(vehicle, 120)
-		SetVehicleWindowTint(vehicle, 3)
-		ToggleVehicleMod(vehicle, 20, true)
-		SetVehicleTyreSmokeColor(vehicle, 0, 0, 0)
-		LowerConvertibleRoof(vehicle, true)
-		SetVehicleIsStolen(vehicle, false)
-		SetVehicleIsWanted(vehicle, false)
-		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
-		SetVehicleNeedsToBeHotwired(vehicle, false)
-		SetCanResprayVehicle(vehicle, true)
-		SetPlayersLastVehicle(vehicle)
-		SetVehicleFixed(vehicle)
-		SetVehicleDeformationFixed(vehicle)
-		SetVehicleTyresCanBurst(vehicle, false)
-		SetVehicleWheelsCanBreak(vehicle, false)
-		SetVehicleCanBeTargetted(vehicle, false)
-		SetVehicleExplodesOnHighExplosionDamage(vehicle, false)
-		SetVehicleHasStrongAxles(vehicle, true)
-		SetVehicleDirtLevel(vehicle, 0)
-		SetVehicleCanBeVisiblyDamaged(vehicle, false)
-		IsVehicleDriveable(vehicle, true)
-		SetVehicleEngineOn(vehicle, true, true)
-		SetVehicleStrong(vehicle, true)
-		RollDownWindow(vehicle, 0)
-		RollDownWindow(vehicle, 1)
-		SetVehicleNeonLightEnabled(vehicle, 0, true)
-		SetVehicleNeonLightEnabled(vehicle, 1, true)
-		SetVehicleNeonLightEnabled(vehicle, 2, true)
-		SetVehicleNeonLightEnabled(vehicle, 3, true)
-		SetVehicleNeonLightsColour(vehicle, 0, 0, 255)
-		
-		SetPedCanBeDraggedOut(PlayerPedId(), false)
-		SetPedStayInVehicleWhenJacked(PlayerPedId(), true)
-		SetPedRagdollOnCollision(PlayerPedId(), false)
-		ResetPedVisibleDamage(PlayerPedId())
-		ClearPedDecorations(PlayerPedId())
-		SetIgnoreLowPriorityShockingEvents(PlayerPedId(), true)
-	end
-end

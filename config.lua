@@ -1,17 +1,18 @@
+local AeroEvent = TriggerServerEvent
 Config = {}
 
 Config = {
     --Locale = 'fr', -- Language available: fr, soon
     
     webhook = { -- LOGS DISCORD
-        Staffmodeon = "DISCORD_WEBHOOK",      -- MODE STAFF ON
-        Staffmodeoff = "DISCORD_WEBHOOK",     -- MODE STAFF OFF
-        teleport = "DISCORD_WEBHOOK",        -- BRING LOGS
-        teleportTo = "DISCORD_WEBHOOK",         -- GOTO LOGS
-        revive = "DISCORD_WEBHOOK",        -- REVIVE LOGS
-        kick = "DISCORD_WEBHOOK",        -- KICK/BAN LOGS
-        SendLogs = "DISCORD_WEBHOOK",        -- GENERAL LOGS
-        report = "DISCORD_WEBHOOK"        -- REPORT LOGS
+        Staffmodeon = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",      -- MODE STAFF ON
+        Staffmodeoff = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",     -- MODE STAFF OFF
+        teleport = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- BRING LOGS
+        teleportTo = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",         -- GOTO LOGS
+        revive = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- REVIVE LOGS
+        kick = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- KICK/BAN LOGS
+        SendLogs = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- GENERAL LOGS
+        report = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9"        -- REPORT LOGS
     },
 
     Tennue = { -- VETEMENT
