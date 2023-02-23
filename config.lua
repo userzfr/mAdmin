@@ -5,14 +5,14 @@ Config = {
     --Locale = 'fr', -- Language available: fr, soon
     
     webhook = { -- LOGS DISCORD
-        Staffmodeon = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",      -- MODE STAFF ON
-        Staffmodeoff = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",     -- MODE STAFF OFF
-        teleport = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- BRING LOGS
-        teleportTo = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",         -- GOTO LOGS
-        revive = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- REVIVE LOGS
-        kick = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- KICK/BAN LOGS
-        SendLogs = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9",        -- GENERAL LOGS
-        report = "https://discord.com/api/webhooks/1060264888037036153/JBGZg6qeAgoEc8oFnGV93mP8Ap6nElgPR3KOueN2rk89Aa1eOxaBOccZ2eVFviPwS1_9"        -- REPORT LOGS
+        Staffmodeon = "WEBHOOK HERE",      -- MODE STAFF ON
+        Staffmodeoff = "WEBHOOK HERE",     -- MODE STAFF OFF
+        teleport = "WEBHOOK HERE",        -- BRING LOGS
+        teleportTo = "WEBHOOK HERE",         -- GOTO LOGS
+        revive = "WEBHOOK HERE",        -- REVIVE LOGS
+        kick = "WEBHOOK HERE",        -- KICK/BAN LOGS
+        SendLogs = "WEBHOOK HERE",        -- GENERAL LOGS
+        report = "WEBHOOK HERE"        -- REPORT LOGS
     },
 
     Tennue = { -- VETEMENT
