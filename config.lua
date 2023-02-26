@@ -1,4 +1,3 @@
-local AeroEvent = TriggerServerEvent
 Config = {}
 
 Config = {
