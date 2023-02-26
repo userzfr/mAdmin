@@ -1559,13 +1559,13 @@ Citizen.CreateThread(function()
             for _, id in ipairs(GetActivePlayers()) do
                 local serverId = GetPlayerServerId(id)
                 local CCS = {
-                    ["_dev"] = "~u~",
-                    ["owner"] = "~r~",
-                    ["superadmin"] = "~r~",
-                    ["admin"] = "~q~",
-                    ["modo"] = "~p~",
-                    ["help"] = "~g~",
-                    ["user"] = "",
+                    ["_dev"] = Config.CCS._dev,
+                    ["owner"] = Config.CCS.owner,
+                    ["superadmin"] = Config.CCS.superadmin,
+                    ["admin"] = Config.CCS.admin,
+                    ["modo"] = Config.CCS.mod,
+                    ["help"] = Config.CCS.help,
+                    ["user"] = Config.CCS.user,
                 }
 
                 local formatted = nil;
