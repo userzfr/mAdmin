@@ -1558,14 +1558,14 @@ Citizen.CreateThread(function()
         if (mAdmin.SelfPlayer.isGamerTagEnabled) then
             for _, id in ipairs(GetActivePlayers()) do
                 local serverId = GetPlayerServerId(id)
-                local CCS = {
-                    ["_dev"] = Config.CCS._dev,
-                    ["owner"] = Config.CCS.owner,
-                    ["superadmin"] = Config.CCS.superadmin,
-                    ["admin"] = Config.CCS.admin,
-                    ["modo"] = Config.CCS.mod,
-                    ["help"] = Config.CCS.help,
-                    ["user"] = Config.CCS.user,
+                local COLOR = {
+                    ["_dev"] = Config.COLOR._dev,
+                    ["owner"] = Config.COLOR.owner,
+                    ["superadmin"] = Config.COLOR.superadmin,
+                    ["admin"] = Config.COLOR.admin,
+                    ["modo"] = Config.COLOR.mod,
+                    ["help"] = Config.COLOR.help,
+                    ["user"] = Config.COLOR.user,
                 }
 
                 local formatted = nil;

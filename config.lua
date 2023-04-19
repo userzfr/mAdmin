@@ -44,7 +44,7 @@ Config = {
     _dev = "Fondateur",
     },
 
-    CCS = { -- Couleur des grade
+    COLOR = { -- Couleur des grade
     user = "", --Laisser vide si vous voulez aucunes couleur
     help = "~g~",
     mod = "~p~",
