@@ -1,3 +1,5 @@
+## NU MAI ESTE ACTUALIZAT!! (Suport pe Discord)
+
 ### 🛠 Cerințe
 
 - [BanSql](https://github.com/Matdbx10/BanSql)

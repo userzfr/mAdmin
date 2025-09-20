@@ -1,3 +1,5 @@
+## NOT UPDATED ANYMORE!! (Support on Discord)
+
 ### 📯 Translation
 
 </p>

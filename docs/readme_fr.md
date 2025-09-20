@@ -1,3 +1,5 @@
+## PLUS MISE À JOUR !! (Support sur Discord)
+
 ### 🛠 Exigences
 
 - [BanSql](https://github.com/Matdbx10/BanSql)

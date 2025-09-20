@@ -1,3 +1,5 @@
+## KHÔNG CẬP NHẬT NỮA!! (Hỗ trợ trên Discord)
+
 ### 🛠 Yêu cầu
 
 - [BanSql](https://github.com/Matdbx10/BanSql)

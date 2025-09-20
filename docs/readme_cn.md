@@ -1,3 +1,5 @@
+## 不再更新！！（在 Discord 上支持）
+
 ### 🛠 要求
 
 - [BanSql](https://github.com/Matdbx10/BanSql)
